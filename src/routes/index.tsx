@@ -9,12 +9,20 @@ import {
   Lightbulb,
   Wand2,
   Gem,
+  Layers,
   ArrowRight,
   Mail,
   Phone,
   MapPin,
+  Clock,
+  Building2,
   Menu,
   X,
+  Flame,
+  Cloud,
+  PartyPopper,
+  Zap,
+  Droplets,
 } from "lucide-react";
 import { ShaderAnimation } from "@/components/ui/shader-animation";
 import { Button } from "@/components/ui/button";
@@ -26,33 +34,127 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Heaven Effects ontwerpt onvergetelijke bruiloften en events. Stages, decoratie, lichten en special effects — uw droom begint hier.",
+          "Heaven Effects realiseert spectaculaire, innovatieve en luxe bruiloften en evenementen in Nederland, België & Duitsland. Dream · Believe · Experience · Heaven.",
       },
       { property: "og:title", content: "Heaven Effects — Wedding & Event Design" },
       {
         property: "og:description",
-        content: "Dream • Believe • Experience • Heaven. Luxe event design op maat.",
+        content:
+          "Dream · Believe · Experience · Heaven. Luxe event design op maat — stages, decoratie, lichten en special effects.",
       },
     ],
   }),
   component: Home,
 });
 
+const CDN = "https://images.squarespace-cdn.com/content/v1/5db729e666d5206f322b3c21";
+
 const services = [
-  { icon: Crown, title: "Stages", text: "Imposante podia die het hart van uw event vormen." },
-  { icon: Utensils, title: "Tables & Setup", text: "Tafels en dekking tot in elk detail verzorgd." },
-  { icon: Armchair, title: "Seating", text: "Comfort en stijl voor elke gast." },
-  { icon: Flower2, title: "Decoration", text: "Sfeervolle decors, bloemen en florale composities." },
-  { icon: Lightbulb, title: "Lights", text: "Lichtontwerp dat ruimtes laat ademen." },
-  { icon: Wand2, title: "Special Effects", text: "Confetti, rook, vuurwerk — magische momenten." },
-  { icon: Gem, title: "Accessoires", text: "De finishing touch die alles samenbrengt." },
+  {
+    icon: Crown,
+    title: "Stages",
+    text: "Imposante podia die het hart van uw event vormen.",
+    img: `${CDN}/1574807593099-BAIQR92RSA8DA0HADBIA/CAM14497.JPG`,
+  },
+  {
+    icon: Utensils,
+    title: "Tables",
+    text: "Tafels van eik, marmer en spiegel — voor elke setting.",
+    img: `${CDN}/59337342-d089-4c6b-a419-c4a1086b7a40/IMG_6670.jpg`,
+  },
+  {
+    icon: Layers,
+    title: "Table Setup",
+    text: "Tot in de millimeter verzorgde dekking en styling.",
+    img: `${CDN}/22049ff6-1d68-452b-833d-6d6a9caf05af/IMG_8881.JPG`,
+  },
+  {
+    icon: Armchair,
+    title: "Seating",
+    text: "Stoelen die comfort en stijl naadloos verenigen.",
+    img: `${CDN}/1574876791074-DKGV24NGR198K3XXWA18/dcc-gold-rim-chairs-1.jpg`,
+  },
+  {
+    icon: Flower2,
+    title: "Decoration",
+    text: "Sfeervolle decors, florale composities en kaarslicht.",
+    img: `${CDN}/6a43dcf1-faf3-48da-b4bb-27e5a936ec8b/d8b442ab-9b9f-4ea0-95f8-519c29b6a85d.JPG`,
+  },
+  {
+    icon: Lightbulb,
+    title: "Lights",
+    text: "Lichtontwerp dat ruimtes laat ademen en glanzen.",
+    img: `${CDN}/1575728892091-3JP9F7KGVW4CAR0NF4QH/1.+Sfeerverlichting+%2810%29.jpg`,
+  },
+  {
+    icon: Wand2,
+    title: "Special Effects",
+    text: "Vuurwerk, laser, rook, confetti — magische momenten.",
+    img: `${CDN}/1574985674547-OA6L50MZ55T0Q2Z84AQG/IMG_1888.JPG`,
+  },
+  {
+    icon: Gem,
+    title: "Accessoires",
+    text: "De finishing touch die alles samenbrengt.",
+    img: `${CDN}/b9e290c2-6d15-4363-9666-c4a4819d3593/IMG_3577.JPG`,
+  },
+];
+
+const effects = [
+  {
+    icon: Flame,
+    title: "Indoor Firework",
+    text:
+      "Een ware vuurwerkspektakel voor ieder gelegenheid — een taartsnijmoment, een bijzondere opkomst of een romantische dans.",
+    img: `${CDN}/1574986767985-EL4TRY2UWRA5ZTG0QCW5/fireworks+%289%29.jpg`,
+  },
+  {
+    icon: Zap,
+    title: "Laser Show",
+    text: "Een ware lasershow — voor ieder gelegenheid de ultieme eyecatcher.",
+    img: `${CDN}/5c14a3a5-3532-4c4b-942d-94fe442e5ea2/image00001+Groot.jpeg`,
+  },
+  {
+    icon: Cloud,
+    title: "Laaghangende Rook",
+    text:
+      "Dikke pluimen rook waarmee u zich waant in een magisch moment — perfect voor een romantische dans of bijzondere opkomst.",
+    img: `${CDN}/1574986886717-6SHQB0W4WWIFV5DQVLHO/Laaghangende+rook+%2826%29.jpg`,
+  },
+  {
+    icon: Sparkles,
+    title: "Special FX Catwalk",
+    text:
+      "Rook gecombineerd met kaarsstukken en bloemwerk op een verhoogd spiegelpad — dé eye-catcher van uw avond.",
+    img: `${CDN}/36f0fe81-04a7-47ec-887d-e2e3ad7e5e81/9199c61c-7389-4c4e-8dde-de947382bc16.JPG`,
+  },
+  {
+    icon: PartyPopper,
+    title: "Confetti",
+    text:
+      "Onze Confetti Blaster blaast 1 kilo brandveilige, waterproof confetti de lucht in — in goud, zilver, wit of een combinatie.",
+    img: `${CDN}/1574987067335-RDDPITWFPPKJ70MME5OG/WeddingConfetti2.jpg`,
+  },
+  {
+    icon: Droplets,
+    title: "Bellenblaas",
+    text: "Een wolk van zeepbellen die elk moment doet sprankelen — sprookjesachtig en onvergetelijk.",
+    img: `${CDN}/1574987091444-6SRLMU99Y5B8WIVG9MI9/bellen.jpg`,
+  },
 ];
 
 const stats = [
-  { n: "500+", l: "Events" },
-  { n: "12", l: "Jaar ervaring" },
-  { n: "98%", l: "Tevreden klanten" },
-  { n: "24/7", l: "Support" },
+  { n: "NL · BE · DE", l: "Werkgebied" },
+  { n: "8+", l: "Categorieën" },
+  { n: "100%", l: "Op maat" },
+  { n: "24/7", l: "Beschikbaar" },
+];
+
+const navLinks = [
+  { label: "Diensten", href: "#diensten" },
+  { label: "Special FX", href: "#effects" },
+  { label: "Over ons", href: "#ervaring" },
+  { label: "Contact", href: "#contact" },
 ];
 
 function Home() {
@@ -83,18 +185,21 @@ function Home() {
             </span>
           </a>
           <ul className="hidden items-center gap-8 text-sm md:flex">
-            {["Diensten", "Ervaring", "Portfolio", "Contact"].map((l) => (
-              <li key={l}>
+            {navLinks.map((l) => (
+              <li key={l.label}>
                 <a
-                  href={`#${l.toLowerCase()}`}
+                  href={l.href}
                   className="relative text-muted-foreground transition-colors hover:text-foreground after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-primary after:transition-all hover:after:w-full"
                 >
-                  {l}
+                  {l.label}
                 </a>
               </li>
             ))}
           </ul>
-          <Button asChild variant="default" className="hidden md:inline-flex bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button
+            asChild
+            className="hidden md:inline-flex bg-primary text-primary-foreground hover:bg-primary/90"
+          >
             <a href="#contact">Maak een afspraak</a>
           </Button>
           <button
@@ -107,14 +212,14 @@ function Home() {
         </nav>
         {open && (
           <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl px-6 py-6 animate-fade-up">
-            {["Diensten", "Ervaring", "Portfolio", "Contact"].map((l) => (
+            {navLinks.map((l) => (
               <a
-                key={l}
-                href={`#${l.toLowerCase()}`}
+                key={l.label}
+                href={l.href}
                 onClick={() => setOpen(false)}
                 className="block py-2 text-muted-foreground hover:text-foreground"
               >
-                {l}
+                {l.label}
               </a>
             ))}
           </div>
@@ -131,7 +236,7 @@ function Home() {
         <div className="relative mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-background/40 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-primary backdrop-blur-md animate-fade-up">
             <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-ring" />
-            Wedding & Event Design
+            Wedding &amp; Event Design
           </div>
 
           <h1 className="font-display text-5xl leading-[1.05] sm:text-7xl md:text-8xl animate-fade-up">
@@ -143,8 +248,9 @@ function Home() {
             className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg animate-fade-up"
             style={{ animationDelay: "150ms" }}
           >
-            Welkom bij Heaven Effects. Wij ontwerpen events die voelen als een droom —
-            van het eerste idee tot de laatste vonk confetti.
+            Welkom bij Heaven Effects. Uw droom begint hier — wij ontwerpen
+            spectaculaire, innovatieve en luxe bruiloften en evenementen in
+            Nederland, België &amp; Duitsland.
           </p>
 
           <div
@@ -156,7 +262,7 @@ function Home() {
               size="lg"
               className="group bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow"
             >
-              <a href="#contact">
+              <a href="https://www.heaveneffects.nl/appointments" target="_blank" rel="noreferrer">
                 Maak een afspraak
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
@@ -177,56 +283,126 @@ function Home() {
         </div>
       </section>
 
-      {/* STATS */}
+      {/* INTRO */}
       <section className="border-y border-border bg-card/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 py-12 md:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.l} className="text-center">
-              <div className="font-display text-4xl text-gradient-gold sm:text-5xl">{s.n}</div>
-              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                {s.l}
+        <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+          <div className="mx-auto mb-6 h-px w-16 gold-line" />
+          <h2 className="font-display text-3xl sm:text-4xl">
+            Welkom bij <span className="text-gradient-gold">Heaven Effects</span>
+          </h2>
+          <p className="mt-6 text-muted-foreground leading-relaxed">
+            Het assortiment van Heaven Effects is zeer gevarieerd en snel wisselend, zodat het
+            assortiment van vandaag volgende week alweer anders kan zijn. Om trendsetter te
+            blijven, is Heaven Effects voortdurend op zoek naar het volgende niveau. Vanuit de
+            hele wereld combineren wij verschillende elementen tot een assortiment dat precies
+            de stijl vormt die bij u past.
+          </p>
+          <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.l} className="text-center">
+                <div className="font-display text-2xl text-gradient-gold sm:text-3xl">
+                  {s.n}
+                </div>
+                <div className="mt-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  {s.l}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* SERVICES */}
+      {/* SERVICES — Catalogus */}
       <section id="diensten" className="mx-auto max-w-7xl px-6 py-28">
         <div className="mx-auto max-w-2xl text-center">
           <div className="mx-auto mb-4 h-px w-16 gold-line" />
           <h2 className="font-display text-4xl sm:text-5xl">
-            Onze <span className="text-gradient-gold">diensten</span>
+            Catalogus <span className="text-gradient-gold">overzicht</span>
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Een complete wereld van event design — alles onder één dak, samengebracht door
-            één visie.
+            Acht categorieën — één visie. Van stages tot accessoires, alles in eigen huis
+            ontworpen en samengebracht.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ icon: Icon, title, text }, i) => (
+        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map(({ icon: Icon, title, text, img }, i) => (
             <article
               key={title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card/60 p-8 backdrop-blur transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:shadow-luxe animate-fade-up"
-              style={{ animationDelay: `${i * 80}ms` }}
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card/60 backdrop-blur transition-all duration-500 hover:-translate-y-1 hover:border-primary/50 hover:shadow-luxe animate-fade-up"
+              style={{ animationDelay: `${i * 70}ms` }}
             >
-              <div className="absolute inset-x-0 -top-px h-px gold-line opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-              <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110">
-                <Icon className="h-6 w-6" />
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <img
+                  src={img}
+                  alt={title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+                <div className="absolute left-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-background/70 text-primary ring-1 ring-primary/30 backdrop-blur">
+                  <Icon className="h-5 w-5" />
+                </div>
               </div>
-              <h3 className="font-display text-2xl">{title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
-              <ArrowRight className="absolute bottom-6 right-6 h-5 w-5 text-primary opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-1" />
+              <div className="p-6">
+                <h3 className="font-display text-xl">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
+              </div>
+              <div className="absolute inset-x-0 -top-px h-px gold-line opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             </article>
           ))}
         </div>
       </section>
 
-      {/* EXPERIENCE */}
-      <section id="ervaring" className="relative overflow-hidden bg-gradient-emerald py-28">
+      {/* SPECIAL EFFECTS */}
+      <section id="effects" className="relative overflow-hidden bg-gradient-emerald py-28">
         <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-primary/20 blur-3xl" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
+        <div className="relative mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto mb-4 h-px w-16 gold-line" />
+            <h2 className="font-display text-4xl sm:text-5xl">
+              <span className="text-gradient-gold">"This is proof enough</span>
+              <br /> to believe in Heaven."
+            </h2>
+            <p className="mt-6 text-muted-foreground">
+              Heaven Effects is gespecialiseerd op het gebied van verschillende effecten.
+              Alle goedgekeurde effecten zijn zowel voor binnen- als buitengebruik. Elk
+              gelegenheid verdient een daadwerkelijk speciaal moment.
+            </p>
+          </div>
+
+          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {effects.map(({ icon: Icon, title, text, img }, i) => (
+              <article
+                key={title}
+                className="group relative overflow-hidden rounded-2xl border border-border bg-card/70 backdrop-blur animate-fade-up"
+                style={{ animationDelay: `${i * 80}ms` }}
+              >
+                <div className="relative aspect-video overflow-hidden">
+                  <img
+                    src={img}
+                    alt={title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-[1500ms] group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+                </div>
+                <div className="p-6">
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="font-display text-2xl">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* OVER ONS */}
+      <section id="ervaring" className="mx-auto max-w-6xl px-6 py-28">
+        <div className="grid items-center gap-16 lg:grid-cols-2">
           <div className="animate-fade-up">
             <div className="mb-4 h-px w-16 gold-line" />
             <h2 className="font-display text-4xl sm:text-5xl">
@@ -234,16 +410,19 @@ function Home() {
               <span className="text-gradient-gold">begint hier.</span>
             </h2>
             <p className="mt-6 text-muted-foreground">
-              Bij Heaven Effects geloven wij dat een event meer is dan een moment.
-              Het is een herinnering die blijft schitteren. Met aandacht voor elk detail,
-              vakmanschap en passie creëren wij events die uw verhaal vertellen.
+              Heaven Effects gaat verder dan alleen decoratie. Met een volledig overzicht
+              van het evenement en jarenlange ervaring in deze branche, kunt u erop
+              vertrouwen dat uw evenement een succes wordt. Breng een vleugje inspiratie
+              mee — en wij brengen onze creativiteit, ervaring en passie naar uw speciale
+              gebeurtenis.
             </p>
 
             <ul className="mt-8 space-y-4">
               {[
-                "Persoonlijke begeleiding van A tot Z",
-                "Volledig op maat ontworpen concepten",
+                "Spectaculair, innovatief en luxe — op maat",
+                "Werkgebied: Nederland, België & Duitsland",
                 "Eigen team van designers & technici",
+                "Volledige begeleiding van eerste idee tot laatste vonk",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-3">
                   <Sparkles className="mt-1 h-4 w-4 shrink-0 text-primary" />
@@ -255,8 +434,8 @@ function Home() {
 
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-luxe animate-float">
             <img
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
-              alt="Elegant wedding tablescape met kaarsen en bloemen"
+              src={`${CDN}/1572896326841-CFS0XSN285Z3WTCI5IGB/telefoonachtergrond2.jpg?format=2500w`}
+              alt="Heaven Effects sfeerbeeld"
               className="h-full w-full object-cover transition-transform duration-[1500ms] hover:scale-105"
               loading="lazy"
             />
@@ -265,7 +444,7 @@ function Home() {
               <div>
                 <p className="font-display text-2xl">Couture events</p>
                 <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                  Sinds 2012
+                  Wedding &amp; Event Design
                 </p>
               </div>
               <Crown className="h-8 w-8 text-primary" />
@@ -274,84 +453,89 @@ function Home() {
         </div>
       </section>
 
-      {/* PORTFOLIO */}
-      <section id="portfolio" className="mx-auto max-w-7xl px-6 py-28">
-        <div className="mb-14 flex items-end justify-between gap-6">
-          <div>
-            <div className="mb-4 h-px w-16 gold-line" />
-            <h2 className="font-display text-4xl sm:text-5xl">
-              <span className="text-gradient-gold">Selected</span> work
-            </h2>
-          </div>
-          <a
-            href="#contact"
-            className="hidden text-sm text-muted-foreground hover:text-foreground sm:inline-flex items-center gap-2"
-          >
-            Bekijk meer <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          {[
-            { src: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80", t: "Stage Design" },
-            { src: "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=1200&q=80", t: "Floral Decoration" },
-            { src: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1200&q=80", t: "Light Show" },
-            { src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80", t: "Table Couture" },
-            { src: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=1200&q=80", t: "Special Effects" },
-            { src: "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&w=1200&q=80", t: "Ceremony" },
-          ].map((img, i) => (
-            <figure
-              key={img.t}
-              className={`group relative overflow-hidden rounded-2xl ${
-                i === 0 ? "md:col-span-2 md:row-span-2" : ""
-              }`}
-            >
-              <img
-                src={img.src}
-                alt={img.t}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
-                style={{ aspectRatio: i === 0 ? "1/1" : "4/5" }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80" />
-              <figcaption className="absolute bottom-5 left-5 font-display text-xl text-foreground">
-                {img.t}
-              </figcaption>
-              <div className="absolute inset-0 ring-0 ring-primary/0 transition-all duration-500 group-hover:ring-2 group-hover:ring-primary/40 rounded-2xl" />
-            </figure>
-          ))}
-        </div>
-      </section>
-
       {/* CONTACT */}
-      <section id="contact" className="relative overflow-hidden border-t border-border bg-card/40 py-28">
+      <section
+        id="contact"
+        className="relative overflow-hidden border-t border-border bg-card/40 py-28"
+      >
         <div className="absolute inset-0 -z-10 opacity-30">
           <ShaderAnimation />
         </div>
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <div className="mx-auto mb-4 h-px w-16 gold-line" />
-          <h2 className="font-display text-4xl sm:text-6xl">
-            Laten we iets <span className="text-gradient-gold">magisch</span> maken.
-          </h2>
-          <p className="mt-6 text-muted-foreground">
-            Vertel ons over uw event. Wij vertalen uw visie naar een onvergetelijke ervaring.
-          </p>
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto mb-4 h-px w-16 gold-line" />
+            <h2 className="font-display text-4xl sm:text-6xl">
+              Laten we iets <span className="text-gradient-gold">magisch</span> maken.
+            </h2>
+            <p className="mt-6 text-muted-foreground">
+              Wilt u een prijsopgaaf aanvragen of heeft u een speciaal verzoek? Wij staan
+              voor u klaar en kunnen niet wachten om uw droomgelegenheid te realiseren.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
+            <div className="rounded-2xl border border-border bg-background/60 p-8 backdrop-blur">
+              <MapPin className="mb-4 h-6 w-6 text-primary" />
+              <h3 className="font-display text-xl">Bezoekersadres</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Heaven Effects<br />
+                Californiedreef 16<br />
+                3565 BL Utrecht
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-background/60 p-8 backdrop-blur">
+              <Phone className="mb-4 h-6 w-6 text-primary" />
+              <h3 className="font-display text-xl">Klantenservice</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                <a href="tel:+31652227124" className="hover:text-foreground">
+                  +31 (0)6 5222 71 24
+                </a>
+                <br />
+                <a href="mailto:info@heaveneffects.nl" className="hover:text-foreground">
+                  info@heaveneffects.nl
+                </a>
+              </p>
+            </div>
+            <div className="rounded-2xl border border-border bg-background/60 p-8 backdrop-blur">
+              <Clock className="mb-4 h-6 w-6 text-primary" />
+              <h3 className="font-display text-xl">Openingstijden</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Ma t/m Do: 12:00 – 20:00<br />
+                Vrij t/m Zo: gesloten
+              </p>
+            </div>
+          </div>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow">
+            <Button
+              asChild
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-glow"
+            >
               <a href="mailto:info@heaveneffects.nl">
-                <Mail className="mr-2 h-4 w-4" /> info@heaveneffects.nl
+                <Mail className="mr-2 h-4 w-4" /> Stuur een mail
               </a>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-primary/40 hover:bg-primary/10">
-              <a href="tel:+31600000000">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-primary/40 hover:bg-primary/10"
+            >
+              <a href="tel:+31652227124">
                 <Phone className="mr-2 h-4 w-4" /> Bel ons
               </a>
             </Button>
           </div>
 
-          <div className="mt-12 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 text-primary" /> Nederland — beschikbaar wereldwijd
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <span className="flex items-center gap-2">
+              <Building2 className="h-4 w-4 text-primary" /> KvK 83081925
+            </span>
+            <span>BTW NL862719057B01</span>
+            <span className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-primary" /> NL · BE · DE
+            </span>
           </div>
         </div>
       </section>
@@ -363,7 +547,7 @@ function Home() {
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="font-display">Heaven Effects</span>
           </div>
-          <p>© {new Date().getFullYear()} Heaven Effects — Wedding & Event Design</p>
+          <p>© {new Date().getFullYear()} Heaven Effects — Wedding &amp; Event Design</p>
         </div>
       </footer>
     </div>
