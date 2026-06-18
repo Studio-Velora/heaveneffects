@@ -9,38 +9,81 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OverOnsRouteImport } from './routes/over-ons'
+import { Route as CatalogusRouteImport } from './routes/catalogus'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CatalogusSlugRouteImport } from './routes/catalogus.$slug'
 
+const OverOnsRoute = OverOnsRouteImport.update({
+  id: '/over-ons',
+  path: '/over-ons',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogusRoute = CatalogusRouteImport.update({
+  id: '/catalogus',
+  path: '/catalogus',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatalogusSlugRoute = CatalogusSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => CatalogusRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/catalogus': typeof CatalogusRouteWithChildren
+  '/over-ons': typeof OverOnsRoute
+  '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/catalogus': typeof CatalogusRouteWithChildren
+  '/over-ons': typeof OverOnsRoute
+  '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/catalogus': typeof CatalogusRouteWithChildren
+  '/over-ons': typeof OverOnsRoute
+  '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
+  id: '__root__' | '/' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CatalogusRoute: typeof CatalogusRouteWithChildren
+  OverOnsRoute: typeof OverOnsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/over-ons': {
+      id: '/over-ons'
+      path: '/over-ons'
+      fullPath: '/over-ons'
+      preLoaderRoute: typeof OverOnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalogus': {
+      id: '/catalogus'
+      path: '/catalogus'
+      fullPath: '/catalogus'
+      preLoaderRoute: typeof CatalogusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +91,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/catalogus/$slug': {
+      id: '/catalogus/$slug'
+      path: '/$slug'
+      fullPath: '/catalogus/$slug'
+      preLoaderRoute: typeof CatalogusSlugRouteImport
+      parentRoute: typeof CatalogusRoute
+    }
   }
 }
 
+interface CatalogusRouteChildren {
+  CatalogusSlugRoute: typeof CatalogusSlugRoute
+}
+
+const CatalogusRouteChildren: CatalogusRouteChildren = {
+  CatalogusSlugRoute: CatalogusSlugRoute,
+}
+
+const CatalogusRouteWithChildren = CatalogusRoute._addFileChildren(
+  CatalogusRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CatalogusRoute: CatalogusRouteWithChildren,
+  OverOnsRoute: OverOnsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
