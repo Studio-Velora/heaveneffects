@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OverOnsRouteImport } from './routes/over-ons'
 import { Route as CatalogusRouteImport } from './routes/catalogus'
+import { Route as AfspraakRouteImport } from './routes/afspraak'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CatalogusSlugRouteImport } from './routes/catalogus.$slug'
 
@@ -22,6 +23,11 @@ const OverOnsRoute = OverOnsRouteImport.update({
 const CatalogusRoute = CatalogusRouteImport.update({
   id: '/catalogus',
   path: '/catalogus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AfspraakRoute = AfspraakRouteImport.update({
+  id: '/afspraak',
+  path: '/afspraak',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const CatalogusSlugRoute = CatalogusSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/afspraak': typeof AfspraakRoute
   '/catalogus': typeof CatalogusRouteWithChildren
   '/over-ons': typeof OverOnsRoute
   '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/afspraak': typeof AfspraakRoute
   '/catalogus': typeof CatalogusRouteWithChildren
   '/over-ons': typeof OverOnsRoute
   '/catalogus/$slug': typeof CatalogusSlugRoute
@@ -50,20 +58,28 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/afspraak': typeof AfspraakRoute
   '/catalogus': typeof CatalogusRouteWithChildren
   '/over-ons': typeof OverOnsRoute
   '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
+  fullPaths: '/' | '/afspraak' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
-  id: '__root__' | '/' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
+  to: '/' | '/afspraak' | '/catalogus' | '/over-ons' | '/catalogus/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/afspraak'
+    | '/catalogus'
+    | '/over-ons'
+    | '/catalogus/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AfspraakRoute: typeof AfspraakRoute
   CatalogusRoute: typeof CatalogusRouteWithChildren
   OverOnsRoute: typeof OverOnsRoute
 }
@@ -82,6 +98,13 @@ declare module '@tanstack/react-router' {
       path: '/catalogus'
       fullPath: '/catalogus'
       preLoaderRoute: typeof CatalogusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/afspraak': {
+      id: '/afspraak'
+      path: '/afspraak'
+      fullPath: '/afspraak'
+      preLoaderRoute: typeof AfspraakRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -115,6 +138,7 @@ const CatalogusRouteWithChildren = CatalogusRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AfspraakRoute: AfspraakRoute,
   CatalogusRoute: CatalogusRouteWithChildren,
   OverOnsRoute: OverOnsRoute,
 }
