@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { categories } from "@/lib/catalog";
@@ -26,6 +26,13 @@ export const Route = createFileRoute("/catalogus")({
 
 function CatalogusPage() {
   useReveal();
+  const location = useLocation();
+  const onChild =
+    location.pathname !== "/catalogus" &&
+    location.pathname.startsWith("/catalogus/");
+
+  if (onChild) return <Outlet />;
+
   return (
     <SiteLayout>
       <Header />
