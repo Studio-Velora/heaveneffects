@@ -20,7 +20,7 @@ export const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>
       glowColor = "var(--gold)",
       backgroundColor = "var(--foreground)",
       textColor = "var(--background)",
-      hoverTextColor = "var(--gold)",
+      hoverTextColor = "var(--background)",
       ...props
     },
     ref,
