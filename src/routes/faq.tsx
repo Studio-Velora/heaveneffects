@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Sparkles, Plus, Minus, Mail } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 
