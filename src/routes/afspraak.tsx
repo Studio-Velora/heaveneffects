@@ -649,12 +649,14 @@ function SuccessCard({ data }: { data: FormState }) {
         Uw aanvraag voor een {data.eventType.toLowerCase()} is geopend in uw mailprogramma.
         Verstuur de mail en wij nemen binnen 24 uur contact op.
       </p>
-      <a
-        href="/"
-        className="mt-8 inline-flex items-center gap-2 rounded-full border border-foreground/15 px-6 py-3 text-sm transition-all hover:border-accent hover:text-accent"
+      <GlowLink
+        to="/"
+        className="mt-8 rounded-full border border-foreground/15 px-6 py-3"
+        backgroundColor="transparent"
+        textColor="var(--foreground)"
       >
         Terug naar home
-      </a>
+      </GlowLink>
     </div>
   );
 }
