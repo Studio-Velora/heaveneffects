@@ -19,6 +19,7 @@ export const Route = createFileRoute("/faq")({
         content: "Alles wat u wilt weten over onze designs, werkwijze en service.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://heaveneffects.nl/faq" }],
   }),
   component: FaqPage,
 });

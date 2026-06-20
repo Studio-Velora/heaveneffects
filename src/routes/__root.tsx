@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { CookieBanner } from "@/components/CookieBanner";
 
 function NotFoundComponent() {
   return (
@@ -77,26 +78,48 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Radiant Canvas enhances websites with dynamic, animated shader effects and custom color palettes." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Radiant Canvas enhances websites with dynamic, animated shader effects and custom color palettes." },
+      { name: "theme-color", content: "#1a1815" },
+      { title: "Heaven Effects — Sierfontijnen & luxe effecten voor bijzondere momenten" },
+      { name: "description", content: "Heaven Effects verzorgt sierfontijnen, sterren en luxe effecten voor bruiloften, evenementen en feesten. Hemels mooi. Onvergetelijk." },
+      { property: "og:title", content: "Heaven Effects — Hemels mooi. Onvergetelijk." },
+      { property: "og:description", content: "Sierfontijnen, sterren en luxe effecten voor jouw bijzondere moment." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Radiant Canvas enhances websites with dynamic, animated shader effects and custom color palettes." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d8373cca-e61e-403f-822c-f183fa06f1a9/id-preview-6d18c339--3fc3e54b-7855-4d57-aced-e18a0ab72469.lovable.app-1781954862386.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d8373cca-e61e-403f-822c-f183fa06f1a9/id-preview-6d18c339--3fc3e54b-7855-4d57-aced-e18a0ab72469.lovable.app-1781954862386.png" },
+      { property: "og:locale", content: "nl_NL" },
+      { property: "og:url", content: "https://heaveneffects.nl" },
+      { property: "og:image", content: "https://heaveneffects.nl/og-image.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Heaven Effects — Hemels mooi. Onvergetelijk." },
+      { name: "twitter:description", content: "Sierfontijnen, sterren en luxe effecten voor jouw bijzondere moment." },
+      { name: "twitter:image", content: "https://heaveneffects.nl/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "canonical", href: "https://heaveneffects.nl/" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "Heaven Effects",
+          "description": "Sierfontijnen, sterren en luxe effecten voor bruiloften, evenementen en feesten.",
+          "url": "https://heaveneffects.nl",
+          "email": "info@heaveneffects.nl",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "NL"
+          },
+          "areaServed": "NL",
+          "priceRange": "€€€",
+        }),
       },
     ],
   }),
@@ -108,7 +131,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="nl">
       <head>
         <HeadContent />
       </head>
@@ -127,6 +150,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <CookieBanner />
     </QueryClientProvider>
   );
 }

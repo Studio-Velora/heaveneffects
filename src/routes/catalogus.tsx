@@ -19,6 +19,7 @@ export const Route = createFileRoute("/catalogus")({
           "Acht categorieën, één visie. Ontdek alles wat Heaven Effects voor uw event ontwerpt.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://heaveneffects.nl/catalogus" }],
   }),
   component: CatalogusPage,
 });

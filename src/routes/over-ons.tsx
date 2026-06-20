@@ -18,6 +18,7 @@ export const Route = createFileRoute("/over-ons")({
         content: "Wij brengen creativiteit, ervaring en passie naar uw bijzondere dag.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://heaveneffects.nl/over-ons" }],
   }),
   component: OverOns,
 });

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1815"/>
+      <stop offset="100%" stop-color="#2a221a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a8884a"/>
+      <stop offset="50%" stop-color="#e8c878"/>
+      <stop offset="100%" stop-color="#a8884a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.2" r="0.55">
+      <stop offset="0%" stop-color="#d4b876" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#d4b876" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Eyebrow label -->
+  <text x="80" y="120" font-family="'Inter', sans-serif" font-size="20" font-weight="500" fill="#d4b876" letter-spacing="6">HEAVEN EFFECTS</text>
+  <line x1="80" y1="145" x2="280" y2="145" stroke="#d4b876" stroke-width="1" opacity="0.5"/>
+
+  <!-- Main heading -->
+  <text x="80" y="290" font-family="'Cormorant Garamond', 'Times New Roman', serif" font-size="110" font-weight="500" fill="#f5ecd5" letter-spacing="-2">Hemels mooi.</text>
+  <text x="80" y="410" font-family="'Cormorant Garamond', 'Times New Roman', serif" font-size="110" font-weight="500" fill="url(#gold)" letter-spacing="-2" font-style="italic">Onvergetelijk.</text>
+
+  <!-- Subtitle -->
+  <text x="80" y="500" font-family="'Inter', sans-serif" font-size="24" fill="#f5ecd5" opacity="0.7">Sierfontijnen, sterren &amp; luxe effecten voor jouw bijzondere moment</text>
+
+  <!-- Decorative element right -->
+  <g transform="translate(1000, 250)">
+    <path d="M0 -80 L20 -20 L80 -10 L40 25 L50 85 L0 55 L-50 85 L-40 25 L-80 -10 L-20 -20 Z" fill="url(#gold)" opacity="0.9"/>
+    <path d="M0 -50 L13 -12 L50 -6 L25 16 L31 53 L0 34 L-31 53 L-25 16 L-50 -6 L-13 -12 Z" fill="#1a1815"/>
+  </g>
+</svg>

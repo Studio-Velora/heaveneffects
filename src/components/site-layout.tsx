@@ -169,8 +169,13 @@ function Footer() {
       </div>
 
       <div className="border-t border-border/60">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs uppercase tracking-[0.2em] text-muted-foreground md:flex-row">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 py-6 text-xs uppercase tracking-[0.2em] text-muted-foreground md:flex-row">
           <p>© {new Date().getFullYear()} Heaven Effects</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 justify-center">
+            <a href="/privacybeleid" className="hover:text-foreground transition-colors">Privacybeleid</a>
+            <span>·</span>
+            <a href="/algemene-voorwaarden" className="hover:text-foreground transition-colors">Algemene Voorwaarden</a>
+          </div>
           <p>KvK 83081925 · BTW NL862719057B01</p>
         </div>
       </div>

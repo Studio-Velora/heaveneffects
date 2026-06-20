@@ -38,6 +38,7 @@ export const Route = createFileRoute("/afspraak")({
           "Vertel ons over uw event in een paar stappen — wij nemen binnen 24 uur contact op.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://heaveneffects.nl/afspraak" }],
   }),
   component: AfspraakPage,
 });
