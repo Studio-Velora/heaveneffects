@@ -87,8 +87,8 @@ export function LuxeBackground({
       )}
       style={
         {
-          ["--lx-bg-start" as string]: "hsl(var(--background))",
-          ["--lx-bg-end" as string]: "hsl(var(--background))",
+          ["--lx-bg-start" as string]: "var(--background)",
+          ["--lx-bg-end" as string]: "var(--background)",
           ["--lx-first" as string]: firstColor,
           ["--lx-second" as string]: secondColor,
           ["--lx-third" as string]: thirdColor,
