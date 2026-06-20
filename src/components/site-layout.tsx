@@ -14,15 +14,17 @@ const links = [
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="relative min-h-screen bg-background text-foreground antialiased">
+    <div className="relative min-h-screen text-foreground antialiased">
       {/* Site-wide animated luxe background */}
       <LuxeBackground
-        containerClassName="fixed inset-0 -z-10 pointer-events-none"
+        containerClassName="fixed inset-0 z-0 pointer-events-none"
         interactive={false}
       />
       <Nav />
-      <main className="relative">{children}</main>
-      <Footer />
+      <main className="relative z-10">{children}</main>
+      <div className="relative z-10">
+        <Footer />
+      </div>
     </div>
   );
 }
