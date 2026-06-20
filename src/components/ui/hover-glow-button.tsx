@@ -20,7 +20,7 @@ export const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>
       glowColor = "var(--gold)",
       backgroundColor = "var(--foreground)",
       textColor = "var(--background)",
-      hoverTextColor = "var(--gold)",
+      hoverTextColor = "var(--background)",
       ...props
     },
     ref,
@@ -87,7 +87,7 @@ export const GlowLink: React.FC<GlowLinkProps> = ({
   glowColor = "var(--gold)",
   backgroundColor = "var(--foreground)",
   textColor = "var(--background)",
-  hoverTextColor = "var(--gold)",
+  hoverTextColor = "var(--background)",
 }) => {
   const [pos, setPos] = useState({ x: 50, y: 50 });
   const [hovered, setHovered] = useState(false);

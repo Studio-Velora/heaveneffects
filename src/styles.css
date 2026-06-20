@@ -187,4 +187,10 @@
   transform: scaleX(0); transform-origin: right;
   transition: transform .5s var(--ease-luxe);
 }
-.link-luxe:hover::after { transform: scaleX(1); transform-origin: left; }
+.link-luxe:hover::after,
+.link-luxe.is-active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.link-luxe.is-active { color: var(--foreground); }
+.link-luxe.is-active::after { height: 1.5px; }
