@@ -244,33 +244,35 @@ function AfspraakPage() {
             </div>
 
             <div className="mt-10 flex items-center justify-between gap-4">
-              <button
+              <HoverButton
                 type="button"
                 onClick={() => setStep((s) => Math.max(1, s - 1))}
-                className={`inline-flex items-center gap-2 rounded-full border border-foreground/15 px-5 py-2.5 text-sm transition-all hover:border-foreground/40 ${
+                className={`border border-foreground/15 px-5 py-2.5 hover:border-foreground/40 ${
                   step === 1 ? "invisible" : ""
                 }`}
+                backgroundColor="transparent"
+                textColor="var(--foreground)"
               >
                 <ArrowLeft className="h-4 w-4" /> Vorige
-              </button>
+              </HoverButton>
 
               {step < totalSteps ? (
-                <button
+                <HoverButton
                   type="button"
                   disabled={!canNext}
                   onClick={() => setStep((s) => Math.min(totalSteps, s + 1))}
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm text-background transition-all hover:shadow-glow disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
+                  className="px-7 py-3 disabled:opacity-40"
                 >
                   Volgende <ArrowRight className="h-4 w-4" />
-                </button>
+                </HoverButton>
               ) : (
-                <button
+                <HoverButton
                   type="submit"
                   disabled={!canNext}
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3 text-sm text-background transition-all hover:shadow-glow disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
+                  className="px-7 py-3 disabled:opacity-40"
                 >
                   Verstuur aanvraag <Sparkles className="h-4 w-4" />
-                </button>
+                </HoverButton>
               )}
             </div>
           </form>

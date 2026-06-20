@@ -174,12 +174,12 @@ function FaqPage() {
               >
                 <Mail className="h-4 w-4" /> info@heaveneffects.nl
               </a>
-              <Link
+              <GlowLink
                 to="/afspraak"
-                className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm text-background transition-all hover:bg-foreground/90 hover:shadow-glow"
+                className="rounded-full bg-foreground px-6 py-3"
               >
                 Plan een afspraak
-              </Link>
+              </GlowLink>
             </div>
           </div>
         </div>
