@@ -51,7 +51,8 @@ function Nav() {
               <Link
                 to={l.to}
                 className="link-luxe text-muted-foreground transition-colors hover:text-foreground"
-                activeProps={{ className: "text-foreground" }}
+                activeProps={{ className: "link-luxe is-active text-foreground" }}
+                activeOptions={{ exact: l.to === "/" }}
               >
                 {l.label}
               </Link>
