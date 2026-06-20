@@ -221,3 +221,26 @@
   50%  { transform: translate(30%, 40%) rotate(180deg); }
   100% { transform: translate(0, 0) rotate(360deg); }
 }
+
+/* ---------- Section snap scrolling ---------- */
+html {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+main > section,
+main > [class*="section"],
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+  scroll-margin-top: 5rem;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}

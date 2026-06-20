@@ -1,210 +1,129 @@
-"use client";
-
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { PulsingBorder } from "@paper-design/shaders-react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
 /**
- * LuxeBackground — mix of an animated multi-color gradient (mouse-reactive blobs)
- * with a soft Paper-shaders pulsing accent. Tuned to the Heaven Effects palette
- * (gold / blush / ivory). Use as a positioned background behind hero content.
+ * LuxeBackground — bewegende gouden lijnen (wave).
+ * Site-wide achtergrond, fixed positioned, z-index -10.
  */
-export function LuxeBackground({
-  children,
-  className,
-  containerClassName,
-  interactive = true,
-  firstColor = "246, 220, 175",   // soft gold
-  secondColor = "255, 228, 217",  // blush
-  thirdColor = "232, 199, 156",   // champagne
-  fourthColor = "212, 175, 124",  // deep gold
-  fifthColor = "255, 245, 230",   // ivory
-  pointerColor = "212, 175, 124",
-  size = "55%",
-  blendingValue = "soft-light",
-}: {
-  children?: ReactNode;
-  className?: string;
-  containerClassName?: string;
-  interactive?: boolean;
-  firstColor?: string;
-  secondColor?: string;
-  thirdColor?: string;
-  fourthColor?: string;
-  fifthColor?: string;
-  pointerColor?: string;
-  size?: string;
-  blendingValue?: string;
-}) {
-  const interactiveRef = useRef<HTMLDivElement | null>(null);
-  const curX = useRef(0);
-  const curY = useRef(0);
-  const tgX = useRef(0);
-  const tgY = useRef(0);
-  const raf = useRef<number | null>(null);
-  const [isSafari, setIsSafari] = useState(false);
-
-  useEffect(() => {
-    setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
-  }, []);
-
-  useEffect(() => {
-    if (!interactive) return;
-    const tick = () => {
-      if (interactiveRef.current) {
-        curX.current += (tgX.current - curX.current) / 20;
-        curY.current += (tgY.current - curY.current) / 20;
-        interactiveRef.current.style.transform = `translate(${Math.round(
-          curX.current,
-        )}px, ${Math.round(curY.current)}px)`;
-      }
-      raf.current = requestAnimationFrame(tick);
-    };
-    raf.current = requestAnimationFrame(tick);
-    return () => {
-      if (raf.current !== null) cancelAnimationFrame(raf.current);
-    };
-  }, [interactive]);
-
-  const onMove = (e: React.MouseEvent) => {
-    if (!interactiveRef.current) return;
-    const rect = interactiveRef.current.getBoundingClientRect();
-    tgX.current = e.clientX - rect.left - rect.width / 2;
-    tgY.current = e.clientY - rect.top - rect.height / 2;
-  };
-
-  const blobBase =
-    "absolute [mix-blend-mode:var(--lx-blend)] opacity-90 [filter:blur(60px)]";
-
+export function LuxeBackground() {
   return (
     <div
-      onMouseMove={interactive ? onMove : undefined}
-      className={cn(
-        "relative overflow-hidden",
-        "bg-[linear-gradient(180deg,_var(--lx-bg-start),_var(--lx-bg-end))]",
-        containerClassName,
-      )}
-      style={
-        {
-          ["--lx-bg-start" as string]: "var(--background)",
-          ["--lx-bg-end" as string]: "var(--background)",
-          ["--lx-first" as string]: firstColor,
-          ["--lx-second" as string]: secondColor,
-          ["--lx-third" as string]: thirdColor,
-          ["--lx-fourth" as string]: fourthColor,
-          ["--lx-fifth" as string]: fifthColor,
-          ["--lx-pointer" as string]: pointerColor,
-          ["--lx-size" as string]: size,
-          ["--lx-blend" as string]: blendingValue,
-        } as React.CSSProperties
-      }
+      aria-hidden
+      className="fixed inset-0 -z-10 overflow-hidden bg-[var(--background)]"
     >
-      {/* SVG goo filter */}
-      <svg className="hidden">
+      {/* Soft radial wash voor diepte */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at top right, rgba(212,184,118,0.10), transparent 55%), radial-gradient(ellipse at bottom left, rgba(232,200,120,0.06), transparent 55%)",
+        }}
+      />
+
+      {/* Bewegende gouden waves */}
+      <svg
+        className="absolute inset-0 h-full w-full"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <defs>
-          <filter id="lx-goo">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-              result="goo"
-            />
-            <feBlend in="SourceGraphic" in2="goo" />
+          <linearGradient id="goldLine" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(168,136,74,0)" />
+            <stop offset="20%" stopColor="rgba(168,136,74,0.35)" />
+            <stop offset="50%" stopColor="rgba(232,200,120,0.65)" />
+            <stop offset="80%" stopColor="rgba(168,136,74,0.35)" />
+            <stop offset="100%" stopColor="rgba(168,136,74,0)" />
+          </linearGradient>
+          <linearGradient id="goldLineSoft" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgba(212,184,118,0)" />
+            <stop offset="50%" stopColor="rgba(212,184,118,0.45)" />
+            <stop offset="100%" stopColor="rgba(212,184,118,0)" />
+          </linearGradient>
+          <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" />
           </filter>
         </defs>
+
+        {/* Wave 1 — traag, breed */}
+        <path
+          d="M -200 450 Q 220 350 540 460 T 1240 470 T 1900 440"
+          stroke="url(#goldLine)"
+          strokeWidth="1.2"
+          fill="none"
+        >
+          <animate
+            attributeName="d"
+            dur="14s"
+            repeatCount="indefinite"
+            values="
+              M -200 450 Q 220 350 540 460 T 1240 470 T 1900 440;
+              M -200 470 Q 220 560 540 440 T 1240 510 T 1900 470;
+              M -200 450 Q 220 350 540 460 T 1240 470 T 1900 440"
+          />
+        </path>
+
+        {/* Wave 2 — sneller, hoger */}
+        <path
+          d="M -200 320 Q 260 260 600 360 T 1280 340 T 1900 320"
+          stroke="url(#goldLineSoft)"
+          strokeWidth="0.9"
+          fill="none"
+        >
+          <animate
+            attributeName="d"
+            dur="11s"
+            repeatCount="indefinite"
+            values="
+              M -200 320 Q 260 260 600 360 T 1280 340 T 1900 320;
+              M -200 350 Q 260 420 600 280 T 1280 380 T 1900 340;
+              M -200 320 Q 260 260 600 360 T 1280 340 T 1900 320"
+          />
+        </path>
+
+        {/* Wave 3 — onder, met glow */}
+        <path
+          d="M -200 600 Q 300 700 660 580 T 1300 640 T 1900 600"
+          stroke="url(#goldLine)"
+          strokeWidth="1.4"
+          fill="none"
+          filter="url(#goldGlow)"
+        >
+          <animate
+            attributeName="d"
+            dur="17s"
+            repeatCount="indefinite"
+            values="
+              M -200 600 Q 300 700 660 580 T 1300 640 T 1900 600;
+              M -200 580 Q 300 500 660 660 T 1300 600 T 1900 640;
+              M -200 600 Q 300 700 660 580 T 1300 640 T 1900 600"
+          />
+        </path>
+
+        {/* Wave 4 — heel subtiel, helemaal onder */}
+        <path
+          d="M -200 780 Q 240 730 580 790 T 1240 780 T 1900 760"
+          stroke="url(#goldLineSoft)"
+          strokeWidth="0.7"
+          fill="none"
+        >
+          <animate
+            attributeName="d"
+            dur="20s"
+            repeatCount="indefinite"
+            values="
+              M -200 780 Q 240 730 580 790 T 1240 780 T 1900 760;
+              M -200 770 Q 240 830 580 730 T 1240 800 T 1900 780;
+              M -200 780 Q 240 730 580 790 T 1240 780 T 1900 760"
+          />
+        </path>
       </svg>
 
-      {/* Pulsing shader accent */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-60">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.4, ease: "easeOut" }}
-          className="absolute"
-        >
-          <PulsingBorder
-            colors={["#D4AF7C", "#F6DCAF", "#FFE4D9", "#E8C79C", "#FFF5E6"]}
-            colorBack="#00000000"
-            speed={0.6}
-            roundness={1}
-            thickness={0.08}
-            softness={0.9}
-            intensity={0.6}
-            spotSize={0.18}
-            pulse={0.18}
-            smoke={0.45}
-            smokeSize={3}
-            scale={0.62}
-            rotation={0}
-            frame={0}
-            style={{ width: 560, height: 560 }}
-          />
-        </motion.div>
-      </div>
-
-      {/* Gradient goo blobs */}
+      {/* Subtle grain bovenop */}
       <div
-        className={cn(
-          "pointer-events-none absolute inset-0",
-          isSafari ? "" : "[filter:url(#lx-goo)_blur(40px)]",
-        )}
-      >
-        <div
-          className={cn(
-            blobBase,
-            "top-[calc(50%-var(--lx-size)/2)] left-[calc(50%-var(--lx-size)/2)] w-[var(--lx-size)] h-[var(--lx-size)]",
-            "bg-[radial-gradient(circle_at_center,_rgba(var(--lx-first),0.8)_0,_rgba(var(--lx-first),0)_50%)]",
-            "[animation:lx-first_30s_ease_infinite] origin-[center_center]",
-          )}
-        />
-        <div
-          className={cn(
-            blobBase,
-            "top-[calc(50%-var(--lx-size)/2)] left-[calc(50%-var(--lx-size)/2)] w-[var(--lx-size)] h-[var(--lx-size)]",
-            "bg-[radial-gradient(circle_at_center,_rgba(var(--lx-second),0.8)_0,_rgba(var(--lx-second),0)_50%)]",
-            "[animation:lx-second_20s_reverse_infinite] origin-[calc(50%-400px)]",
-          )}
-        />
-        <div
-          className={cn(
-            blobBase,
-            "top-[calc(50%-var(--lx-size)/2)] left-[calc(50%-var(--lx-size)/2)] w-[var(--lx-size)] h-[var(--lx-size)]",
-            "bg-[radial-gradient(circle_at_center,_rgba(var(--lx-third),0.8)_0,_rgba(var(--lx-third),0)_50%)]",
-            "[animation:lx-third_40s_linear_infinite] origin-[calc(50%+400px)]",
-          )}
-        />
-        <div
-          className={cn(
-            blobBase,
-            "top-[calc(50%-var(--lx-size)/2)] left-[calc(50%-var(--lx-size)/2)] w-[var(--lx-size)] h-[var(--lx-size)] opacity-70",
-            "bg-[radial-gradient(circle_at_center,_rgba(var(--lx-fourth),0.8)_0,_rgba(var(--lx-fourth),0)_50%)]",
-            "[animation:lx-fourth_40s_ease_infinite] origin-[calc(50%-200px)]",
-          )}
-        />
-        <div
-          className={cn(
-            blobBase,
-            "top-[calc(50%-var(--lx-size))] left-[calc(50%-var(--lx-size))] w-[calc(var(--lx-size)*2)] h-[calc(var(--lx-size)*2)]",
-            "bg-[radial-gradient(circle_at_center,_rgba(var(--lx-fifth),0.8)_0,_rgba(var(--lx-fifth),0)_50%)]",
-            "[animation:lx-fifth_20s_ease_infinite] origin-[calc(50%-800px)_calc(50%+200px)]",
-          )}
-        />
-
-        {interactive && (
-          <div
-            ref={interactiveRef}
-            className={cn(
-              "absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-70",
-              "bg-[radial-gradient(circle_at_center,_rgba(var(--lx-pointer),0.8)_0,_rgba(var(--lx-pointer),0)_50%)]",
-              "[mix-blend-mode:var(--lx-blend)]",
-            )}
-          />
-        )}
-      </div>
-
-      <div className={cn("relative z-10", className)}>{children}</div>
+        className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
     </div>
   );
 }
