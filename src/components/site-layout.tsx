@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { GlowLink } from "@/components/ui/hover-glow-button";
 import { useEffect, useState, type ReactNode } from "react";
 import { Menu, X, Sparkles, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { LuxeBackground } from "@/components/ui/luxe-background";
 
 const links = [
   { to: "/", label: "Home" },
@@ -13,9 +14,14 @@ const links = [
 
 export function SiteLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased">
+    <div className="relative min-h-screen bg-background text-foreground antialiased">
+      {/* Site-wide animated luxe background */}
+      <LuxeBackground
+        containerClassName="fixed inset-0 -z-10 pointer-events-none"
+        interactive={false}
+      />
       <Nav />
-      <main>{children}</main>
+      <main className="relative">{children}</main>
       <Footer />
     </div>
   );
