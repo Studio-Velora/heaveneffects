@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlowLink } from "@/components/ui/hover-glow-button";
+import { useEffect, useRef } from "react";
 
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
@@ -26,6 +27,12 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   useReveal();
+  // Section snap alleen voor homepage
+  useEffect(() => {
+    document.body.classList.add("snap-home");
+    return () => document.body.classList.remove("snap-home");
+  }, []);
+
   return (
     <SiteLayout>
       <Hero />
@@ -42,98 +49,142 @@ function Home() {
 
 function Hero() {
   return (
-    <section className="relative isolate overflow-hidden pt-32 pb-24 md:pt-44 md:pb-32">
-      {/* site-wide luxe background lives in SiteLayout */}
-
-      {/* soft drifting blobs on top for extra depth */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className="absolute -bottom-32 -right-10 h-[35rem] w-[35rem] rounded-full bg-accent/20 blur-3xl animate-drift"
-          style={{ animationDelay: "3s" }}
-        />
-      </div>
-
-      <div className="mx-auto max-w-6xl px-6 text-center">
-        <h1 className="font-display text-[clamp(3rem,9vw,8rem)] leading-[0.95] tracking-tight animate-fade-up">
-          <span className="block italic font-light text-foreground/80">Dream · Believe</span>
-          <span className="block text-shimmer-gold">Experience · Heaven</span>
-        </h1>
-
-        <p
-          className="mx-auto mt-10 max-w-xl text-lg leading-relaxed text-muted-foreground animate-fade-up"
-          style={{ animationDelay: "180ms" }}
-        >
-          Welkom bij Heaven Effects. Wij ontwerpen spectaculaire, innovatieve en luxe
-          bruiloften en evenementen — waarin elk detail klopt en elk moment blijft glanzen.
-        </p>
-
-        <div
-          className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up"
-          style={{ animationDelay: "320ms" }}
-        >
-          <GlowLink
-            to="/afspraak"
-            className="group rounded-full bg-foreground px-7 py-3.5"
-          >
-            Maak een afspraak
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </GlowLink>
-          <GlowLink
-            to="/catalogus"
-            className="rounded-full border border-foreground/15 px-7 py-3.5"
-            backgroundColor="transparent"
-            textColor="var(--foreground)"
-          >
-            Bekijk catalogus
-          </GlowLink>
+    <HeroParallax>
+      <section className="snap-section relative isolate flex min-h-screen items-center justify-center overflow-hidden pt-32 pb-16 md:pt-0 md:pb-0">
+        {/* Mouse-parallax gold orbs */}
+        <div className="pointer-events-none absolute inset-0 -z-[5]">
+          <div
+            className="absolute left-1/2 top-1/2 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 blur-3xl float-soft"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(232,200,120,0.55), transparent 65%)",
+            }}
+          />
+          <div
+            className="absolute -bottom-20 -right-20 h-[28rem] w-[28rem] rounded-full bg-[var(--gold)]/15 blur-3xl animate-drift"
+            style={{ animationDelay: "3s" }}
+          />
+          <div
+            className="absolute -top-20 -left-20 h-[24rem] w-[24rem] rounded-full bg-[var(--blush)]/30 blur-3xl animate-drift"
+            style={{ animationDelay: "1.5s" }}
+          />
         </div>
 
-        {/* floating hero image cluster */}
-        <div className="relative mx-auto mt-20 max-w-5xl animate-fade-in">
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-5 aspect-[3/4] overflow-hidden rounded-2xl shadow-luxe animate-float">
-              <img
-                src={categories[0].cover}
-                alt="Stage design"
-                className="img-luxe h-full w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-            <div className="col-span-7 grid gap-4">
-              <div className="aspect-[16/9] overflow-hidden rounded-2xl shadow-luxe">
-                <img
-                  src={categories[4].cover}
-                  alt="Decoratie"
-                  className="img-luxe h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div
-                  className="aspect-square overflow-hidden rounded-2xl shadow-luxe animate-float"
-                  style={{ animationDelay: "1.5s" }}
-                >
-                  <img
-                    src={categories[5].cover}
-                    alt="Lights"
-                    className="img-luxe h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="aspect-square overflow-hidden rounded-2xl shadow-luxe">
-                  <img
-                    src={categories[6].cover}
-                    alt="Special effects"
-                    className="img-luxe h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
+        <div className="relative mx-auto max-w-6xl px-6 text-center">
+          {/* Ornament */}
+          <div className="mx-auto mb-10 flex items-center justify-center gap-4 animate-fade-up">
+            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--gold)]" />
+            <Sparkles className="h-4 w-4 text-[var(--gold)] float-soft" />
+            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--gold)]" />
+          </div>
+
+          {/* Hoofdtekst — word-by-word reveal */}
+          <h1 className="font-display text-[clamp(3.5rem,11vw,10rem)] leading-[0.92] tracking-tight">
+            <SplitReveal text="Dream · Believe" className="block italic font-light text-foreground/80" />
+            <SplitReveal text="Experience · Heaven" className="block text-shimmer-gold" startDelay={0.5} />
+          </h1>
+
+          <p
+            className="mx-auto mt-10 max-w-xl text-lg leading-relaxed text-muted-foreground animate-fade-up"
+            style={{ animationDelay: "1.2s" }}
+          >
+            Sierfontijnen, sterren en luxe effecten voor jouw bijzondere moment —
+            waarin elk detail klopt en elk moment blijft glanzen.
+          </p>
+
+          <div
+            className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up"
+            style={{ animationDelay: "1.4s" }}
+          >
+            <GlowLink to="/afspraak" className="group rounded-full bg-foreground px-7 py-3.5">
+              Maak een afspraak
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </GlowLink>
+            <GlowLink
+              to="/catalogus"
+              className="rounded-full border border-foreground/15 px-7 py-3.5"
+              backgroundColor="transparent"
+              textColor="var(--foreground)"
+            >
+              Bekijk catalogus
+            </GlowLink>
+          </div>
+
+          {/* Scroll cue */}
+          <div
+            className="mt-24 flex flex-col items-center gap-3 animate-fade-up"
+            style={{ animationDelay: "1.8s" }}
+          >
+            <span className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground/70">
+              Scroll
+            </span>
+            <div className="h-12 w-px overflow-hidden">
+              <div className="h-full w-px animate-scrollCue bg-gradient-to-b from-transparent via-[var(--gold)] to-transparent" />
             </div>
           </div>
         </div>
-      </div>
-    </section>
+
+        <style>{`
+          @keyframes scrollCue {
+            0%   { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+          }
+          .animate-scrollCue { animation: scrollCue 2.5s ease-in-out infinite; }
+        `}</style>
+      </section>
+    </HeroParallax>
+  );
+}
+
+/* ---- HeroParallax: subtiele mouse-follow op kinderen ---- */
+function HeroParallax({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
+      const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
+      el.style.setProperty("--mx", `${x * 14}px`);
+      el.style.setProperty("--my", `${y * 14}px`);
+    };
+    el.addEventListener("mousemove", onMove);
+    return () => el.removeEventListener("mousemove", onMove);
+  }, []);
+  return (
+    <div ref={ref} className="hero-parallax" style={{ transform: "translate(var(--mx,0), var(--my,0))", transition: "transform 0.7s var(--ease-luxe)" }}>
+      {children}
+    </div>
+  );
+}
+
+/* ---- SplitReveal: word-for-word stagger ---- */
+function SplitReveal({
+  text,
+  className,
+  startDelay = 0,
+}: {
+  text: string;
+  className?: string;
+  startDelay?: number;
+}) {
+  const words = text.split(" ");
+  return (
+    <span className={className}>
+      {words.map((w, i) => (
+        <span
+          key={i}
+          className="inline-block opacity-0"
+          style={{
+            animation: `wordRise 0.9s var(--ease-luxe) ${startDelay + i * 0.08}s forwards`,
+            paddingRight: "0.25em",
+          }}
+        >
+          {w}
+        </span>
+      ))}
+    </span>
   );
 }
 
@@ -171,7 +222,7 @@ function Marquee() {
 
 function Intro() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-32">
+    <section className="snap-section relative mx-auto flex min-h-screen max-w-6xl items-center px-6 py-32">
       <div className="grid items-center gap-16 lg:grid-cols-2">
         <div className="reveal">
           <div className="mb-4 h-px w-16 gold-line" />
@@ -225,7 +276,7 @@ function Intro() {
 function Highlights() {
   const featured = categories.slice(0, 4);
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24">
+    <section className="snap-section relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
       <div className="mb-16 flex items-end justify-between gap-6 reveal">
         <div>
           <div className="mb-4 h-px w-16 gold-line" />
@@ -272,7 +323,7 @@ function Highlights() {
 
 function Quote() {
   return (
-    <section className="relative mx-auto max-w-4xl px-6 py-32 text-center reveal">
+    <section className="snap-section relative mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-6 py-32 text-center reveal">
       <Sparkles className="mx-auto h-6 w-6 text-accent" />
       <p className="mt-8 font-display text-3xl italic leading-snug text-foreground/85 sm:text-5xl">
         "This is proof enough <br /> to believe in Heaven."
@@ -286,7 +337,7 @@ function Quote() {
 
 function CTA() {
   return (
-    <section className="relative mx-auto max-w-6xl px-6 pb-32">
+    <section className="snap-section relative mx-auto flex min-h-screen max-w-6xl items-center px-6 pb-32">
       <div className="reveal relative overflow-hidden rounded-3xl bg-foreground p-12 text-background shadow-luxe sm:p-20">
         <div className="pointer-events-none absolute -top-20 -right-20 h-80 w-80 rounded-full bg-accent/30 blur-3xl animate-drift" />
         <div className="relative max-w-2xl">

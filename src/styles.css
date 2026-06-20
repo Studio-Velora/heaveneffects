@@ -307,3 +307,21 @@ section {
   opacity: 0;
   animation: wordRise .8s var(--ease-luxe) forwards;
 }
+
+/* ---------- Section snap scroll (homepage opt-in) ---------- */
+body.snap-home {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+body.snap-home .snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.snap-home { scroll-snap-type: none; }
+}
+
+@keyframes wordRise {
+  from { opacity: 0; transform: translateY(28px) rotate(-2deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(0); }
+}
