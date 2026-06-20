@@ -194,3 +194,30 @@
 }
 .link-luxe.is-active { color: var(--foreground); }
 .link-luxe.is-active::after { height: 1.5px; }
+
+/* ---------- LuxeBackground keyframes ---------- */
+@keyframes lx-first {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(0, 50%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes lx-second {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(-50%, 30%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes lx-third {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(50%, -30%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes lx-fourth {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(-30%, -30%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+@keyframes lx-fifth {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  50%  { transform: translate(30%, 40%) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
