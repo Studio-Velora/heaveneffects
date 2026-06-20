@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/site-layout";
 import { categories } from "@/lib/catalog";
+import { useSelection } from "@/lib/selection";
+import { X } from "lucide-react";
 
 export const Route = createFileRoute("/afspraak")({
   head: () => ({
@@ -111,10 +113,14 @@ const contactOptions: FormState["contactPreference"][] = [
 
 const totalSteps = 4;
 
+const WEB3FORMS_KEY = "d225a492-154d-4a96-8be2-eaa01d552447";
+
 function AfspraakPage() {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormState>(initial);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const { items: selectionItems, clear: clearSelection } = useSelection();
 
   const progress = useMemo(() => (step / totalSteps) * 100, [step]);
 
@@ -143,30 +149,48 @@ function AfspraakPage() {
         : [...d.interests, slug],
     }));
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canNext) return;
-    // For now: open a prefilled email. Easy to swap to a backend later.
-    const body = [
-      `Type event: ${data.eventType}`,
-      `Datum: ${data.flexibleDate ? "Flexibel" : data.date}`,
-      `Locatie: ${data.location}${data.venue ? ` (${data.venue})` : ""}`,
-      `Aantal gasten: ${data.guests}`,
-      `Interesses: ${data.interests.join(", ") || "—"}`,
-      `Budget: ${data.budget || "—"}`,
-      `Naam: ${data.firstName} ${data.lastName}`,
-      `E-mail: ${data.email}`,
-      `Telefoon: ${data.phone || "—"}`,
-      `Contact via: ${data.contactPreference}`,
-      ``,
-      `Bericht:`,
-      data.message || "—",
-    ].join("\n");
-    const url = `mailto:info@heaveneffects.nl?subject=${encodeURIComponent(
-      `Afspraak — ${data.eventType} (${data.firstName} ${data.lastName})`
-    )}&body=${encodeURIComponent(body)}`;
-    window.location.href = url;
-    setSubmitted(true);
+    if (!canNext || sending) return;
+
+    const selectionText = selectionItems.length
+      ? selectionItems.map((i) => `- ${i.title} (${i.category})`).join("\n")
+      : "—";
+
+    const payload = {
+      access_key: WEB3FORMS_KEY,
+      subject: `Afspraak — ${data.eventType} (${data.firstName} ${data.lastName})`,
+      from_name: `${data.firstName} ${data.lastName}`,
+      replyto: data.email,
+      "Type event": data.eventType,
+      Datum: data.flexibleDate ? "Flexibel" : data.date,
+      Locatie: data.location + (data.venue ? ` (${data.venue})` : ""),
+      "Aantal gasten": data.guests,
+      Interesses: data.interests.join(", ") || "—",
+      "Geselecteerde items uit catalogus": selectionText,
+      Budget: data.budget || "—",
+      Naam: `${data.firstName} ${data.lastName}`,
+      Email: data.email,
+      Telefoon: data.phone || "—",
+      "Contact via": data.contactPreference,
+      Bericht: data.message || "—",
+    };
+
+    setSending(true);
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+        clearSelection();
+      }
+    } catch {
+      // niets — laat gebruiker opnieuw proberen
+    }
+    setSending(false);
   };
 
   return (
@@ -198,6 +222,38 @@ function AfspraakPage() {
         {submitted ? (
           <SuccessCard data={data} />
         ) : (
+          <>
+            {selectionItems.length > 0 && (
+              <div className="mb-6 rounded-3xl border border-[var(--gold)]/30 bg-card/80 p-6 shadow-soft animate-fade-up">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4 text-accent" />
+                    <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                      {selectionItems.length} {selectionItems.length === 1 ? "item" : "items"} uit de catalogus
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => clearSelection()}
+                    className="text-xs uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground"
+                  >
+                    Leegmaken
+                  </button>
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                  {selectionItems.map((it) => (
+                    <div key={it.slug} className="group relative overflow-hidden rounded-xl">
+                      <img src={it.img} alt={it.title} className="aspect-square w-full object-cover" loading="lazy" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/0 to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 p-2 text-xs leading-tight text-background">
+                        <div className="font-medium truncate">{it.title}</div>
+                        <div className="text-background/60 truncate">{it.category}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           <form
             onSubmit={submit}
             className="rounded-3xl border border-border bg-card p-8 shadow-luxe sm:p-12 animate-fade-up"
@@ -277,6 +333,7 @@ function AfspraakPage() {
               )}
             </div>
           </form>
+          </>
         )}
 
         <p className="mt-8 text-center text-xs text-muted-foreground">

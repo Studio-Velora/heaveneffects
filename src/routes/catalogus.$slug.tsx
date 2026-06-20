@@ -1,9 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { GlowLink } from "@/components/ui/hover-glow-button";
 import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Sparkles, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, X, Check, Plus } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { categories, type CatalogItem } from "@/lib/catalog";
+import { useSelection } from "@/lib/selection";
 
 export const Route = createFileRoute("/catalogus/$slug")({
   loader: ({ params }) => {
@@ -66,9 +67,9 @@ function CategoryPage() {
   return (
     <SiteLayout>
       <Hero category={category} />
-      <Items items={category.items} onOpen={setActive} />
+      <Items items={category.items} categorySlug={category.slug} categoryTitle={category.title} onOpen={setActive} />
       <PrevNext prev={prev} next={next} />
-      {active && <Lightbox item={active} onClose={() => setActive(null)} />}
+      {active && <Lightbox item={active} categorySlug={category.slug} categoryTitle={category.title} onClose={() => setActive(null)} />}
     </SiteLayout>
   );
 }
@@ -106,40 +107,81 @@ function Hero({ category }: { category: (typeof categories)[number] }) {
 
 function Items({
   items,
+  categorySlug,
+  categoryTitle,
   onOpen,
 }: {
   items: CatalogItem[];
+  categorySlug: string;
+  categoryTitle: string;
   onOpen: (i: CatalogItem) => void;
 }) {
+  const { add, has, remove } = useSelection();
+
   return (
     <section className="mx-auto max-w-7xl px-6 py-16">
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item, i) => (
-          <button
-            key={item.slug}
-            onClick={() => onOpen(item)}
-            className="group reveal text-left"
-            style={{ transitionDelay: `${i * 60}ms` }}
-          >
-            <div className="aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-soft transition-shadow group-hover:shadow-luxe">
-              <img
-                src={item.img}
-                alt={item.title}
-                loading="lazy"
-                className="img-luxe h-full w-full object-cover"
-              />
-            </div>
-            <div className="mt-5 flex items-start justify-between gap-4">
-              <div>
-                <h3 className="font-display text-2xl">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {item.text}
-                </p>
-              </div>
-              <Sparkles className="mt-2 h-4 w-4 shrink-0 text-accent opacity-0 transition-opacity group-hover:opacity-100" />
-            </div>
-          </button>
-        ))}
+        {items.map((item, i) => {
+          const selected = has(item.slug);
+          return (
+            <article
+              key={item.slug}
+              className="group reveal relative"
+              style={{ transitionDelay: `${i * 60}ms` }}
+            >
+              <button
+                onClick={() => onOpen(item)}
+                className="block w-full text-left"
+              >
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-secondary shadow-soft transition-shadow group-hover:shadow-luxe">
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    loading="lazy"
+                    className="img-luxe h-full w-full object-cover"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute inset-x-4 bottom-4 translate-y-2 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-background/95 px-3 py-1 text-xs uppercase tracking-[0.18em] text-foreground backdrop-blur">
+                      <Sparkles className="h-3 w-3 text-accent" /> Bekijk
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-5">
+                  <h3 className="font-display text-2xl transition-colors group-hover:text-gradient-gold">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {item.text}
+                  </p>
+                </div>
+              </button>
+              <button
+                onClick={() =>
+                  selected
+                    ? remove(item.slug)
+                    : add({ slug: item.slug, title: item.title, img: item.img, category: categoryTitle })
+                }
+                aria-label={selected ? "Verwijderen uit offerte" : "Voeg toe aan offerte"}
+                className={`mt-3 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.18em] transition-all ${
+                  selected
+                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-deep)]"
+                    : "border-foreground/15 text-muted-foreground hover:border-[var(--gold)]/50 hover:text-foreground"
+                }`}
+              >
+                {selected ? (
+                  <>
+                    <Check className="h-3.5 w-3.5" /> Toegevoegd
+                  </>
+                ) : (
+                  <>
+                    <Plus className="h-3.5 w-3.5" /> Voeg toe aan offerte
+                  </>
+                )}
+              </button>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
@@ -184,7 +226,9 @@ function PrevNext({
   );
 }
 
-function Lightbox({ item, onClose }: { item: CatalogItem; onClose: () => void }) {
+function Lightbox({ item, categorySlug, categoryTitle, onClose }: { item: CatalogItem; categorySlug: string; categoryTitle: string; onClose: () => void }) {
+  const { add, has, remove } = useSelection();
+  const selected = has(item.slug);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -218,12 +262,36 @@ function Lightbox({ item, onClose }: { item: CatalogItem; onClose: () => void })
           <p className="text-xs uppercase tracking-[0.3em] text-accent">Design</p>
           <h3 className="font-display text-5xl leading-[1.05]">{item.title}</h3>
           <p className="text-muted-foreground">{item.text}</p>
-          <GlowLink
-            to="/afspraak"
-            className="mt-2 w-fit rounded-full bg-foreground px-6 py-3"
-          >
-            Vraag dit ontwerp aan <ArrowRight className="h-4 w-4" />
-          </GlowLink>
+          <div className="mt-2 flex flex-wrap gap-3">
+            <button
+              onClick={() =>
+                selected
+                  ? remove(item.slug)
+                  : add({ slug: item.slug, title: item.title, img: item.img, category: categoryTitle })
+              }
+              className={`inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-medium transition-all ${
+                selected
+                  ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-deep)]"
+                  : "border-foreground/15 text-foreground hover:border-[var(--gold)] hover:bg-[var(--gold)]/10"
+              }`}
+            >
+              {selected ? (
+                <>
+                  <Check className="h-4 w-4" /> Toegevoegd aan offerte
+                </>
+              ) : (
+                <>
+                  <Plus className="h-4 w-4" /> Voeg toe aan offerte
+                </>
+              )}
+            </button>
+            <GlowLink
+              to="/afspraak"
+              className="rounded-full bg-foreground px-6 py-3"
+            >
+              Vraag offerte aan <ArrowRight className="h-4 w-4" />
+            </GlowLink>
+          </div>
         </div>
       </div>
     </div>

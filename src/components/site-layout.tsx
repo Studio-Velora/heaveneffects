@@ -3,6 +3,8 @@ import { GlowLink } from "@/components/ui/hover-glow-button";
 import { useEffect, useState, type ReactNode } from "react";
 import { Menu, X, Sparkles, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import { LuxeBackground } from "@/components/ui/luxe-background";
+import { PromoBanner } from "@/components/PromoBanner";
+import { SelectionFab } from "@/components/SelectionFab";
 
 const links = [
   { to: "/", label: "Home" },
@@ -16,15 +18,14 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <div className="relative min-h-screen text-foreground antialiased">
       {/* Site-wide animated luxe background */}
-      <LuxeBackground
-        containerClassName="fixed inset-0 z-0 pointer-events-none"
-        interactive={false}
-      />
+      <LuxeBackground />
+      <PromoBanner />
       <Nav />
       <main className="relative z-10">{children}</main>
       <div className="relative z-10">
         <Footer />
       </div>
+      <SelectionFab />
     </div>
   );
 }
