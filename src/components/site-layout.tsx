@@ -42,11 +42,12 @@ function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+      className={`fixed inset-x-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-background/80 backdrop-blur-xl border-b border-border/60"
           : "bg-transparent"
       }`}
+      style={{ top: "var(--he-promo-h, 0px)" }}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <Link to="/" className="flex items-baseline gap-2">
@@ -188,6 +189,15 @@ function Footer() {
 export function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll<HTMLElement>(".reveal");
+    // Veiligheid: elementen die al in viewport zijn direct zichtbaar maken
+    const showInView = () => {
+      els.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) el.classList.add("is-visible");
+      });
+    };
+    showInView();
+
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("is-visible"));
       return;
@@ -201,9 +211,18 @@ export function useReveal() {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
+      { threshold: 0.05, rootMargin: "0px 0px -30px 0px" }
     );
     els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+
+    // Vangnet: na 1.5s alles tonen wat nog hangt
+    const fallback = window.setTimeout(() => {
+      els.forEach((el) => el.classList.add("is-visible"));
+    }, 1500);
+
+    return () => {
+      io.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, []);
 }

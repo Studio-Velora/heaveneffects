@@ -54,14 +54,9 @@ function Hero() {
       </div>
 
       <div className="mx-auto max-w-6xl px-6 text-center">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-1.5 text-xs uppercase tracking-[0.3em] text-muted-foreground backdrop-blur-md animate-fade-up">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse-ring" />
-          Wedding &amp; Event Design · sinds jaren
-        </div>
-
         <h1 className="font-display text-[clamp(3rem,9vw,8rem)] leading-[0.95] tracking-tight animate-fade-up">
           <span className="block italic font-light text-foreground/80">Dream · Believe</span>
-          <span className="block text-gradient-gold">Experience · Heaven</span>
+          <span className="block text-shimmer-gold">Experience · Heaven</span>
         </h1>
 
         <p

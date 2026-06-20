@@ -66,7 +66,7 @@ function Grid() {
             key={c.slug}
             to="/catalogus/$slug"
             params={{ slug: c.slug }}
-            className={`group reveal relative overflow-hidden rounded-3xl bg-card shadow-soft transition-all duration-700 hover:shadow-luxe ${
+            className={`group reveal card-tilt glow-ring relative overflow-hidden rounded-3xl bg-card shadow-soft transition-all duration-700 hover:shadow-luxe ${
               i % 3 === 0 ? "md:row-span-2" : ""
             }`}
             style={{ transitionDelay: `${i * 50}ms` }}
