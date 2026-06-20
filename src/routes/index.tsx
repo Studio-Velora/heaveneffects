@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlowLink } from "@/components/ui/hover-glow-button";
+import { LuxeBackground } from "@/components/ui/luxe-background";
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { categories, CDN } from "@/lib/catalog";
@@ -42,16 +43,16 @@ function Home() {
 function Hero() {
   return (
     <section className="relative isolate overflow-hidden pt-32 pb-24 md:pt-44 md:pb-32">
-      {/* soft drifting blobs */}
+      {/* animated luxe background (gradient blobs + pulsing shader accent) */}
+      <LuxeBackground
+        containerClassName="absolute inset-0 -z-10"
+        interactive
+      />
+      {/* soft drifting blobs on top for extra depth */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-20 -left-20 h-[40rem] w-[40rem] rounded-full bg-blush opacity-70 blur-3xl animate-drift" />
         <div
-          className="absolute -bottom-32 -right-10 h-[35rem] w-[35rem] rounded-full bg-accent/30 blur-3xl animate-drift"
+          className="absolute -bottom-32 -right-10 h-[35rem] w-[35rem] rounded-full bg-accent/20 blur-3xl animate-drift"
           style={{ animationDelay: "3s" }}
-        />
-        <div
-          className="absolute top-1/3 left-1/2 h-[25rem] w-[25rem] -translate-x-1/2 rounded-full bg-secondary opacity-60 blur-3xl animate-drift"
-          style={{ animationDelay: "6s" }}
         />
       </div>
 
