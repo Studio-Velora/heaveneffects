@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { GlowLink } from "@/components/ui/hover-glow-button";
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { categories, CDN } from "@/lib/catalog";
@@ -77,19 +78,21 @@ function Hero() {
           className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up"
           style={{ animationDelay: "320ms" }}
         >
-          <Link
+          <GlowLink
             to="/afspraak"
-            className="group inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm text-background transition-all hover:shadow-glow"
+            className="group rounded-full bg-foreground px-7 py-3.5"
           >
             Maak een afspraak
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-          <Link
+          </GlowLink>
+          <GlowLink
             to="/catalogus"
-            className="inline-flex items-center gap-2 rounded-full border border-foreground/15 px-7 py-3.5 text-sm text-foreground transition-all hover:border-accent hover:text-accent"
+            className="rounded-full border border-foreground/15 px-7 py-3.5"
+            backgroundColor="transparent"
+            textColor="var(--foreground)"
           >
             Bekijk catalogus
-          </Link>
+          </GlowLink>
         </div>
 
         {/* floating hero image cluster */}
@@ -302,12 +305,14 @@ function CTA() {
             ervaring. Plan een vrijblijvend gesprek of vraag een prijsopgaaf aan.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <Link
+            <GlowLink
               to="/afspraak"
-              className="inline-flex items-center gap-2 rounded-full bg-background px-7 py-3.5 text-sm text-foreground transition-all hover:bg-accent hover:text-accent-foreground"
+              className="rounded-full bg-background px-7 py-3.5"
+              backgroundColor="var(--background)"
+              textColor="var(--foreground)"
             >
               Maak een afspraak <ArrowRight className="h-4 w-4" />
-            </Link>
+            </GlowLink>
             <a
               href="mailto:info@heaveneffects.nl"
               className="inline-flex items-center gap-2 rounded-full border border-background/30 px-7 py-3.5 text-sm text-background transition-all hover:border-accent hover:text-accent"

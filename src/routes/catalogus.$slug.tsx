@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { GlowLink } from "@/components/ui/hover-glow-button";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Sparkles, X } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
@@ -29,12 +30,14 @@ export const Route = createFileRoute("/catalogus/$slug")({
       <div className="mx-auto max-w-2xl px-6 pt-48 pb-24 text-center">
         <h1 className="font-display text-5xl">Niet gevonden</h1>
         <p className="mt-4 text-muted-foreground">Deze categorie bestaat niet.</p>
-        <Link
+        <GlowLink
           to="/catalogus"
-          className="mt-8 inline-flex items-center gap-2 rounded-full border border-foreground/15 px-6 py-3 text-sm"
+          className="mt-8 rounded-full border border-foreground/15 px-6 py-3"
+          backgroundColor="transparent"
+          textColor="var(--foreground)"
         >
           <ArrowLeft className="h-4 w-4" /> Terug naar catalogus
-        </Link>
+        </GlowLink>
       </div>
     </SiteLayout>
   ),
@@ -215,12 +218,12 @@ function Lightbox({ item, onClose }: { item: CatalogItem; onClose: () => void })
           <p className="text-xs uppercase tracking-[0.3em] text-accent">Design</p>
           <h3 className="font-display text-5xl leading-[1.05]">{item.title}</h3>
           <p className="text-muted-foreground">{item.text}</p>
-          <Link
+          <GlowLink
             to="/afspraak"
-            className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm text-background transition-all hover:shadow-glow"
+            className="mt-2 w-fit rounded-full bg-foreground px-6 py-3"
           >
             Vraag dit ontwerp aan <ArrowRight className="h-4 w-4" />
-          </Link>
+          </GlowLink>
         </div>
       </div>
     </div>
