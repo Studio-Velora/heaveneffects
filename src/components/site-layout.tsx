@@ -59,12 +59,12 @@ function Nav() {
           ))}
         </ul>
 
-        <Link
+        <GlowLink
           to="/afspraak"
-          className="hidden md:inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-foreground px-5 py-2.5 text-sm text-background transition-all hover:bg-foreground/90 hover:shadow-glow"
+          className="hidden md:inline-flex rounded-full border border-foreground/15 bg-foreground px-5 py-2.5"
         >
           Maak een afspraak
-        </Link>
+        </GlowLink>
 
         <button
           className="md:hidden text-foreground"
