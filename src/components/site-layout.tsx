@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { GlowLink } from "@/components/ui/hover-glow-button";
 import { useEffect, useState, type ReactNode } from "react";
 import { Menu, X, Sparkles, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
