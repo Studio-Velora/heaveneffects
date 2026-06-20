@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { GlowLink } from "@/components/ui/hover-glow-button";
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { categories, CDN } from "@/lib/catalog";
