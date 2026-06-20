@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { GlowLink } from "@/components/ui/hover-glow-button";
-import { LuxeBackground } from "@/components/ui/luxe-background";
+
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { categories, CDN } from "@/lib/catalog";
@@ -43,11 +43,8 @@ function Home() {
 function Hero() {
   return (
     <section className="relative isolate overflow-hidden pt-32 pb-24 md:pt-44 md:pb-32">
-      {/* animated luxe background (gradient blobs + pulsing shader accent) */}
-      <LuxeBackground
-        containerClassName="absolute inset-0 -z-10"
-        interactive
-      />
+      {/* site-wide luxe background lives in SiteLayout */}
+
       {/* soft drifting blobs on top for extra depth */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div
