@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
 import { SectionDots } from "@/components/SectionDots";
+import { PeonyDecor } from "@/components/PeonyDecor";
 import { categories, CDN } from "@/lib/catalog";
 
 export const Route = createFileRoute("/")({
@@ -80,18 +81,40 @@ function Hero() {
           />
         </div>
 
+        {/* Zwevende pioenrozen — 3D diepte rond de hero */}
+        <PeonyDecor
+          className="-z-[4]"
+          peonies={[
+            { top: "-6%",  left: "-8%",  size: 340, opacity: 0.85, blur: 0, rotate: -8, depth: 0.9, floatDur: 9 },
+            { bottom: "-12%", right: "-6%", size: 420, opacity: 0.8, blur: 1, rotate: 10, depth: 1, floatDur: 11 },
+            { top: "8%",   right: "4%",  size: 180, opacity: 0.5, blur: 2.5, rotate: 14, depth: 0.55, floatDur: 8 },
+            { bottom: "14%", left: "2%",  size: 150, opacity: 0.42, blur: 3, rotate: -12, depth: 0.45, floatDur: 10 },
+            { top: "40%",  left: "-12%", size: 240, opacity: 0.3, blur: 5, rotate: 6, depth: 0.25, floatDur: 13 },
+          ]}
+        />
+
         <div className="relative mx-auto max-w-6xl px-6 text-center">
-          {/* Ornament */}
-          <div className="mx-auto mb-10 flex items-center justify-center gap-4 animate-fade-up">
-            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[var(--gold)]" />
-            <Sparkles className="h-4 w-4 text-[var(--gold)] float-soft" />
-            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--gold)]" />
+          {/* Logo emblem */}
+          <div className="relative mx-auto mb-6 flex justify-center animate-fade-up">
+            {/* zachte gloed achter het logo zodat het wit/goud oplicht op crème */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[60%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+              style={{
+                background:
+                  "radial-gradient(ellipse, rgba(168,136,74,0.22), transparent 70%)",
+              }}
+            />
+            <img
+              src="/logo.png"
+              alt="Heaven Effects"
+              className="relative w-[clamp(180px,26vw,300px)] drop-shadow-[0_8px_30px_rgba(168,136,74,0.25)]"
+            />
           </div>
 
-          <h1 className="font-display text-[clamp(3rem,10vw,9rem)] leading-[0.92] tracking-tight">
+          <h1 className="font-display text-[clamp(2rem,6vw,5rem)] leading-[0.95] tracking-tight">
             <span
               className="block italic font-light text-foreground/80 animate-fade-up"
-              style={{ animationDelay: "0.2s" }}
+              style={{ animationDelay: "0.3s" }}
             >
               Dream · Believe
             </span>
@@ -552,12 +575,22 @@ function Testimonials() {
 
 function Quote() {
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-6 py-32 text-center reveal">
-      <Sparkles className="mx-auto h-6 w-6 text-accent" />
-      <p className="mt-8 font-display text-3xl italic leading-snug text-foreground/85 sm:text-5xl">
-        "This is proof enough <br /> to believe in Heaven."
-      </p>
-      <div className="mx-auto mt-8 h-px w-24 gold-line" />
+    <section className="snap-section relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
+      {/* Pioenrozen als zachte overgang */}
+      <PeonyDecor
+        peonies={[
+          { top: "-8%", left: "-4%", size: 300, opacity: 0.55, blur: 2, rotate: -10, depth: 0.7, floatDur: 12 },
+          { bottom: "-10%", right: "-4%", size: 360, opacity: 0.5, blur: 2.5, rotate: 12, depth: 0.85, floatDur: 14 },
+          { top: "20%", right: "8%", size: 130, opacity: 0.3, blur: 4, rotate: 8, depth: 0.4, floatDur: 10 },
+        ]}
+      />
+      <div className="reveal relative">
+        <Sparkles className="mx-auto h-6 w-6 text-accent" />
+        <p className="mt-8 font-display text-3xl italic leading-snug text-foreground/85 sm:text-5xl">
+          "This is proof enough <br /> to believe in Heaven."
+        </p>
+        <div className="mx-auto mt-8 h-px w-24 gold-line" />
+      </div>
     </section>
   );
 }
