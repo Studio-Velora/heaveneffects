@@ -9,13 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PrivacybeleidRouteImport } from './routes/privacybeleid'
 import { Route as OverOnsRouteImport } from './routes/over-ons'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as CatalogusRouteImport } from './routes/catalogus'
+import { Route as AlgemeneVoorwaardenRouteImport } from './routes/algemene-voorwaarden'
 import { Route as AfspraakRouteImport } from './routes/afspraak'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CatalogusSlugRouteImport } from './routes/catalogus.$slug'
 
+const PrivacybeleidRoute = PrivacybeleidRouteImport.update({
+  id: '/privacybeleid',
+  path: '/privacybeleid',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OverOnsRoute = OverOnsRouteImport.update({
   id: '/over-ons',
   path: '/over-ons',
@@ -29,6 +36,11 @@ const FaqRoute = FaqRouteImport.update({
 const CatalogusRoute = CatalogusRouteImport.update({
   id: '/catalogus',
   path: '/catalogus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlgemeneVoorwaardenRoute = AlgemeneVoorwaardenRouteImport.update({
+  id: '/algemene-voorwaarden',
+  path: '/algemene-voorwaarden',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AfspraakRoute = AfspraakRouteImport.update({
@@ -50,26 +62,32 @@ const CatalogusSlugRoute = CatalogusSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/afspraak': typeof AfspraakRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
   '/catalogus': typeof CatalogusRouteWithChildren
   '/faq': typeof FaqRoute
   '/over-ons': typeof OverOnsRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
   '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/afspraak': typeof AfspraakRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
   '/catalogus': typeof CatalogusRouteWithChildren
   '/faq': typeof FaqRoute
   '/over-ons': typeof OverOnsRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
   '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/afspraak': typeof AfspraakRoute
+  '/algemene-voorwaarden': typeof AlgemeneVoorwaardenRoute
   '/catalogus': typeof CatalogusRouteWithChildren
   '/faq': typeof FaqRoute
   '/over-ons': typeof OverOnsRoute
+  '/privacybeleid': typeof PrivacybeleidRoute
   '/catalogus/$slug': typeof CatalogusSlugRoute
 }
 export interface FileRouteTypes {
@@ -77,38 +95,53 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/afspraak'
+    | '/algemene-voorwaarden'
     | '/catalogus'
     | '/faq'
     | '/over-ons'
+    | '/privacybeleid'
     | '/catalogus/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/afspraak'
+    | '/algemene-voorwaarden'
     | '/catalogus'
     | '/faq'
     | '/over-ons'
+    | '/privacybeleid'
     | '/catalogus/$slug'
   id:
     | '__root__'
     | '/'
     | '/afspraak'
+    | '/algemene-voorwaarden'
     | '/catalogus'
     | '/faq'
     | '/over-ons'
+    | '/privacybeleid'
     | '/catalogus/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AfspraakRoute: typeof AfspraakRoute
+  AlgemeneVoorwaardenRoute: typeof AlgemeneVoorwaardenRoute
   CatalogusRoute: typeof CatalogusRouteWithChildren
   FaqRoute: typeof FaqRoute
   OverOnsRoute: typeof OverOnsRoute
+  PrivacybeleidRoute: typeof PrivacybeleidRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/privacybeleid': {
+      id: '/privacybeleid'
+      path: '/privacybeleid'
+      fullPath: '/privacybeleid'
+      preLoaderRoute: typeof PrivacybeleidRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/over-ons': {
       id: '/over-ons'
       path: '/over-ons'
@@ -128,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/catalogus'
       fullPath: '/catalogus'
       preLoaderRoute: typeof CatalogusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/algemene-voorwaarden': {
+      id: '/algemene-voorwaarden'
+      path: '/algemene-voorwaarden'
+      fullPath: '/algemene-voorwaarden'
+      preLoaderRoute: typeof AlgemeneVoorwaardenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/afspraak': {
@@ -169,10 +209,22 @@ const CatalogusRouteWithChildren = CatalogusRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AfspraakRoute: AfspraakRoute,
+  AlgemeneVoorwaardenRoute: AlgemeneVoorwaardenRoute,
   CatalogusRoute: CatalogusRouteWithChildren,
   FaqRoute: FaqRoute,
   OverOnsRoute: OverOnsRoute,
+  PrivacybeleidRoute: PrivacybeleidRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

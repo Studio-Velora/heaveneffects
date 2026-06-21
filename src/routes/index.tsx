@@ -266,8 +266,8 @@ function Marquee() {
 
 function Intro() {
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen max-w-6xl items-center px-6 py-32">
-      <div className="grid items-center gap-16 lg:grid-cols-2">
+    <section className="snap-section relative flex min-h-screen items-center justify-center px-6 py-24">
+      <div className="grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2">
         <div className="reveal">
           <div className="mb-4 h-px w-16 gold-line" />
           <h2 className="font-display text-5xl leading-[1.05]">
@@ -313,7 +313,7 @@ function Intro() {
           </div>
         </div>
 
-        <div className="reveal relative aspect-[4/5] overflow-hidden rounded-3xl shadow-luxe">
+        <div className="reveal relative aspect-[4/5] max-h-[60vh] overflow-hidden rounded-3xl shadow-luxe">
           <img
             src={`${CDN}/1572896326841-CFS0XSN285Z3WTCI5IGB/telefoonachtergrond2.jpg?format=2500w`}
             alt="Heaven Effects sfeerbeeld"
@@ -337,8 +337,8 @@ function Intro() {
 function Highlights() {
   const featured = categories.slice(0, 4);
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
-      <div className="mb-16 flex items-end justify-between gap-6 reveal">
+    <section className="snap-section relative flex min-h-screen flex-col items-center justify-center px-6 py-24">
+      <div className="mb-12 flex w-full max-w-7xl items-end justify-between gap-6 reveal">
         <div>
           <div className="mb-4 h-px w-16 gold-line" />
           <h2 className="font-display text-5xl leading-[1.05]">
@@ -350,7 +350,7 @@ function Highlights() {
         </Link>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid w-full max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
         {featured.map((c, i) => (
           <Link
             key={c.slug}
@@ -359,7 +359,7 @@ function Highlights() {
             className="group reveal relative overflow-hidden rounded-2xl bg-card shadow-soft transition-all hover:shadow-luxe"
             style={{ transitionDelay: `${i * 60}ms` }}
           >
-            <div className="aspect-[3/4] overflow-hidden">
+            <div className="aspect-[3/4] max-h-[55vh] overflow-hidden">
               <img
                 src={c.cover}
                 alt={c.title}
@@ -394,26 +394,24 @@ function Portfolio() {
   const rowB = allItems.filter((_, i) => i % 2 === 1);
 
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen w-full max-w-none flex-col justify-center px-0 py-24">
-      <div className="mx-auto mb-14 max-w-7xl px-6 reveal text-center">
-        <div className="mx-auto mb-4 h-px w-16 gold-line" />
+    <section className="snap-section relative flex min-h-screen w-full flex-col justify-center gap-6 overflow-hidden py-20">
+      <div className="mx-auto max-w-7xl px-6 reveal text-center">
+        <div className="mx-auto mb-3 h-px w-16 gold-line" />
         <p className="text-xs uppercase tracking-[0.3em] text-accent">Portfolio</p>
-        <h2 className="mt-3 font-display text-5xl leading-[1.05] sm:text-6xl">
+        <h2 className="mt-2 font-display text-4xl leading-[1.05] sm:text-5xl">
           Een blik op <span className="italic text-gradient-gold">onze projecten</span>
         </h2>
-        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-          Beweeg over een item om te pauzeren — klik om de hele collectie te zien.
-        </p>
       </div>
 
-      <PortfolioMarquee items={rowA} duration={70} />
-      <div className="h-5" />
-      <PortfolioMarquee items={rowB} duration={90} reverse />
+      <div className="flex flex-col gap-4">
+        <PortfolioMarquee items={rowA} duration={70} />
+        <PortfolioMarquee items={rowB} duration={90} reverse />
+      </div>
 
-      <div className="mx-auto mt-14 flex max-w-7xl justify-center px-6 reveal">
+      <div className="mx-auto flex max-w-7xl justify-center px-6 reveal">
         <GlowLink
           to="/catalogus"
-          className="rounded-full border border-foreground/15 px-7 py-3.5"
+          className="rounded-full border border-foreground/15 px-7 py-3"
           backgroundColor="transparent"
           textColor="var(--foreground)"
         >
@@ -447,7 +445,7 @@ function PortfolioMarquee({
             key={`${it.slug}-${i}`}
             to="/catalogus/$slug"
             params={{ slug: it.catSlug }}
-            className="group relative block aspect-[4/5] w-[260px] shrink-0 overflow-hidden rounded-2xl shadow-soft transition-shadow hover:shadow-luxe sm:w-[300px] md:w-[340px]"
+            className="group relative block aspect-[5/4] w-[240px] shrink-0 overflow-hidden rounded-2xl shadow-soft transition-shadow hover:shadow-luxe sm:aspect-[4/5] sm:w-[200px] md:w-[230px]"
           >
             <img
               src={it.img}
@@ -510,8 +508,8 @@ const TESTIMONIALS = [
 
 function Testimonials() {
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
-      <div className="mb-12 reveal text-center">
+    <section className="snap-section relative flex min-h-screen flex-col items-center justify-center px-6 py-24">
+      <div className="mb-12 w-full max-w-7xl reveal text-center">
         <div className="mx-auto mb-4 h-px w-16 gold-line" />
         <p className="text-xs uppercase tracking-[0.3em] text-accent">Wat gasten zeggen</p>
         <h2 className="mt-3 font-display text-5xl leading-[1.05] sm:text-6xl">
@@ -519,7 +517,7 @@ function Testimonials() {
         </h2>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid w-full max-w-7xl gap-6 md:grid-cols-3">
         {TESTIMONIALS.map((t, i) => (
           <div
             key={i}
