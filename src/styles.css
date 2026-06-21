@@ -310,12 +310,12 @@ section {
 
 /* ---------- Section snap scroll (homepage opt-in) ---------- */
 html.snap-home {
-  scroll-snap-type: y mandatory !important;
+  scroll-snap-type: y proximity !important;
   scroll-behavior: smooth;
 }
 html.snap-home .snap-section {
   scroll-snap-align: start;
-  scroll-snap-stop: always;
+  scroll-snap-stop: normal;
 }
 @media (prefers-reduced-motion: reduce) {
   html.snap-home { scroll-snap-type: none !important; }

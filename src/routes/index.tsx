@@ -43,6 +43,8 @@ function Home() {
       <Marquee />
       <Intro />
       <Highlights />
+      <Portfolio />
+      <Testimonials />
       <Quote />
       <CTA />
     </SiteLayout>
@@ -288,6 +290,23 @@ function Intro() {
               </li>
             ))}
           </ul>
+
+          <div className="mt-10 flex flex-wrap gap-3">
+            <GlowLink
+              to="/afspraak"
+              className="rounded-full bg-foreground px-6 py-3"
+            >
+              Vrijblijvend gesprek <ArrowRight className="h-4 w-4" />
+            </GlowLink>
+            <GlowLink
+              to="/over-ons"
+              className="rounded-full border border-foreground/15 px-6 py-3"
+              backgroundColor="transparent"
+              textColor="var(--foreground)"
+            >
+              Leer ons kennen
+            </GlowLink>
+          </div>
         </div>
 
         <div className="reveal relative aspect-[4/5] overflow-hidden rounded-3xl shadow-luxe">
@@ -359,6 +378,149 @@ function Highlights() {
 
 /* ---------------- Quote ---------------- */
 
+/* ---------------- Portfolio ---------------- */
+
+function Portfolio() {
+  // Pak 6 random items uit verschillende categorieën voor een rijk overzicht
+  const picks = [
+    categories[0].items[10], // White Qasr
+    categories[1].items[11], // Reflection Gold
+    categories[0].items[6],  // Beldi
+    categories[5].items[0],  // Lights cover
+    categories[0].items[3],  // Silence
+    categories[1].items[7],  // American Dinner
+  ].filter(Boolean);
+
+  return (
+    <section className="snap-section relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
+      <div className="mb-12 flex items-end justify-between gap-6 reveal">
+        <div>
+          <div className="mb-4 h-px w-16 gold-line" />
+          <p className="text-xs uppercase tracking-[0.3em] text-accent">Portfolio</p>
+          <h2 className="mt-3 font-display text-5xl leading-[1.05] sm:text-6xl">
+            Een blik op <span className="italic text-gradient-gold">recente projecten</span>
+          </h2>
+        </div>
+        <Link
+          to="/catalogus"
+          className="link-luxe hidden text-sm text-muted-foreground sm:inline-flex items-center gap-2"
+        >
+          Alles bekijken <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+        {picks.map((it, i) => (
+          <Link
+            key={i}
+            to="/catalogus"
+            className={`group reveal relative overflow-hidden rounded-2xl shadow-soft transition-shadow hover:shadow-luxe ${
+              i === 0 ? "md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-[5/6]" :
+              i === 3 ? "aspect-[4/5] md:aspect-[5/6]" :
+              "aspect-[4/5]"
+            }`}
+            style={{ transitionDelay: `${i * 60}ms` }}
+          >
+            <img
+              src={it!.img}
+              alt={it!.title}
+              loading="lazy"
+              className="img-luxe h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/15 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
+            <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]/90">
+                Heaven Effects
+              </p>
+              <h3 className="mt-1 font-display text-2xl text-background md:text-3xl">
+                {it!.title}
+              </h3>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-12 flex justify-center">
+        <GlowLink
+          to="/catalogus"
+          className="rounded-full border border-foreground/15 px-7 py-3.5"
+          backgroundColor="transparent"
+          textColor="var(--foreground)"
+        >
+          Bekijk alle projecten <ArrowRight className="h-4 w-4" />
+        </GlowLink>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Testimonials ---------------- */
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Heaven Effects heeft onze bruiloft transformatie tot een sprookje gemaakt. Elk detail klopte, en de gasten praten er nog steeds over.",
+    author: "Sara & Yassine",
+    event: "Bruiloft · Den Haag",
+  },
+  {
+    quote:
+      "Vakmanschap op het hoogste niveau. De decoratie, de timing, de communicatie — alles voelde moeiteloos én magisch.",
+    author: "Imane & Mehdi",
+    event: "Bruiloft · Amsterdam",
+  },
+  {
+    quote:
+      "We hadden specifieke wensen en Heaven Effects realiseerde ze allemaal. Een team dat écht meedenkt en levert.",
+    author: "Nadia & Karim",
+    event: "Bruiloft · Rotterdam",
+  },
+];
+
+function Testimonials() {
+  return (
+    <section className="snap-section relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
+      <div className="mb-12 reveal text-center">
+        <div className="mx-auto mb-4 h-px w-16 gold-line" />
+        <p className="text-xs uppercase tracking-[0.3em] text-accent">Wat gasten zeggen</p>
+        <h2 className="mt-3 font-display text-5xl leading-[1.05] sm:text-6xl">
+          Onvergetelijke <span className="italic text-gradient-gold">momenten</span>
+        </h2>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        {TESTIMONIALS.map((t, i) => (
+          <div
+            key={i}
+            className="reveal relative flex flex-col rounded-2xl border border-border bg-card/60 p-8 shadow-soft backdrop-blur-sm"
+            style={{ transitionDelay: `${i * 100}ms` }}
+          >
+            <Sparkles className="h-5 w-5 text-[var(--gold)]" />
+            <p className="mt-5 flex-1 font-display text-lg italic leading-relaxed text-foreground/90">
+              "{t.quote}"
+            </p>
+            <div className="mt-6 border-t border-border pt-4">
+              <div className="font-display text-base">{t.author}</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                {t.event}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-12 flex justify-center reveal">
+        <GlowLink
+          to="/afspraak"
+          className="rounded-full bg-foreground px-7 py-3.5"
+        >
+          Plan jouw moment <ArrowRight className="h-4 w-4" />
+        </GlowLink>
+      </div>
+    </section>
+  );
+}
+
 function Quote() {
   return (
     <section className="snap-section relative mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-6 py-32 text-center reveal">
@@ -375,7 +537,7 @@ function Quote() {
 
 function CTA() {
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen max-w-6xl items-center px-6 pb-32">
+    <section className="relative mx-auto max-w-6xl px-6 py-24">
       <div className="reveal relative overflow-hidden rounded-3xl bg-foreground p-12 text-background shadow-luxe sm:p-20">
         <div className="pointer-events-none absolute -top-20 -right-20 h-80 w-80 rounded-full bg-accent/30 blur-3xl animate-drift" />
         <div className="relative max-w-2xl">
