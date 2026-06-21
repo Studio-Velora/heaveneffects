@@ -27,10 +27,14 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   useReveal();
-  // Section snap alleen voor homepage
+  // Section snap alleen voor homepage — op html (scroll container)
   useEffect(() => {
+    document.documentElement.classList.add("snap-home");
     document.body.classList.add("snap-home");
-    return () => document.body.classList.remove("snap-home");
+    return () => {
+      document.documentElement.classList.remove("snap-home");
+      document.body.classList.remove("snap-home");
+    };
   }, []);
 
   return (
@@ -50,7 +54,7 @@ function Home() {
 function Hero() {
   return (
     <HeroParallax>
-      <section className="snap-section relative isolate flex min-h-screen items-center justify-center overflow-hidden pt-32 pb-16 md:pt-0 md:pb-0">
+      <section className="snap-section relative isolate grid min-h-screen place-items-center overflow-hidden px-6 py-24">
         {/* Mouse-parallax gold orbs */}
         <div className="pointer-events-none absolute inset-0 -z-[5]">
           <div
@@ -78,23 +82,24 @@ function Hero() {
             <span className="h-px w-12 bg-gradient-to-l from-transparent to-[var(--gold)]" />
           </div>
 
-          {/* Hoofdtekst — word-by-word reveal */}
-          <h1 className="font-display text-[clamp(3.5rem,11vw,10rem)] leading-[0.92] tracking-tight">
-            <SplitReveal text="Dream · Believe" className="block italic font-light text-foreground/80" />
-            <SplitReveal text="Experience · Heaven" className="block text-shimmer-gold" startDelay={0.5} />
+          <h1 className="font-display text-[clamp(3rem,10vw,9rem)] leading-[0.92] tracking-tight">
+            <span
+              className="block italic font-light text-foreground/80 animate-fade-up"
+              style={{ animationDelay: "0.2s" }}
+            >
+              Dream · Believe
+            </span>
+            <span
+              className="block text-shimmer-gold animate-fade-up"
+              style={{ animationDelay: "0.6s" }}
+            >
+              Experience · Heaven
+            </span>
           </h1>
 
-          <p
-            className="mx-auto mt-10 max-w-xl text-lg leading-relaxed text-muted-foreground animate-fade-up"
-            style={{ animationDelay: "1.2s" }}
-          >
-            Sierfontijnen, sterren en luxe effecten voor jouw bijzondere moment —
-            waarin elk detail klopt en elk moment blijft glanzen.
-          </p>
-
           <div
-            className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up"
-            style={{ animationDelay: "1.4s" }}
+            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row animate-fade-up"
+            style={{ animationDelay: "1.2s" }}
           >
             <GlowLink to="/afspraak" className="group rounded-full bg-foreground px-7 py-3.5">
               Maak een afspraak
