@@ -141,24 +141,57 @@ function Hero() {
   );
 }
 
-/* ---- HeroParallax: subtiele mouse-follow op kinderen ---- */
+/* ---- HeroParallax: rAF-throttled mouse-follow op kinderen ---- */
 function HeroParallax({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // skip on touch / coarse pointer devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    let tx = 0;
+    let ty = 0;
+    let cx = 0;
+    let cy = 0;
+    let raf = 0;
+    let running = false;
+
+    const tick = () => {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      el.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        running = false;
+      }
+    };
+
     const onMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
       const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-      el.style.setProperty("--mx", `${x * 14}px`);
-      el.style.setProperty("--my", `${y * 14}px`);
+      tx = x * 12;
+      ty = y * 12;
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(tick);
+      }
     };
-    el.addEventListener("mousemove", onMove);
-    return () => el.removeEventListener("mousemove", onMove);
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
   }, []);
   return (
-    <div ref={ref} className="hero-parallax" style={{ transform: "translate(var(--mx,0), var(--my,0))", transition: "transform 0.7s var(--ease-luxe)" }}>
+    <div
+      ref={ref}
+      className="hero-parallax"
+      style={{ willChange: "transform" }}
+    >
       {children}
     </div>
   );

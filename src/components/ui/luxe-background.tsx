@@ -1,76 +1,70 @@
 /**
- * LuxeBackground — dichte set bewegende gouden lijnen.
- * Verschillende opacities, snelheden, lijndiktes. Fixed achter alle content.
+ * LuxeBackground — 20 gouden waves die via CSS transforms (GPU)
+ * horizontaal driften. Veel sneller dan SVG `d` morphen.
  */
 
 type Wave = {
-  d: string;
-  d2: string;
-  d3?: string;
+  y: number;          // verticale positie in viewBox (0-900)
+  amp: number;        // amplitude van de golf
+  width: number;      // strokeWidth
   stroke: "goldLine" | "goldLineSoft" | "goldLineHair";
-  width: number;
-  dur: number;
-  glow?: boolean;
+  duration: number;   // seconden voor 1 volledige loop
+  delay: number;
   opacity: number;
+  glow?: boolean;
+  reverse?: boolean;  // andere kant op driften
 };
 
+// 20 waves, dubbel zoveel — laagje voor laagje
 const WAVES: Wave[] = [
-  // Helemaal bovenin — heel subtiel
-  {
-    d:  "M -200 120 Q 260 80  600 160 T 1280 130 T 1900 100",
-    d2: "M -200 140 Q 260 210 600 80  T 1280 180 T 1900 160",
-    stroke: "goldLineHair", width: 0.6, dur: 22, opacity: 0.5,
-  },
-  {
-    d:  "M -200 200 Q 220 240 540 180 T 1240 220 T 1900 200",
-    d2: "M -200 220 Q 220 150 540 270 T 1240 170 T 1900 240",
-    stroke: "goldLineSoft", width: 0.8, dur: 18, opacity: 0.7,
-  },
+  // Top — heel subtiel
+  { y: 80,  amp: 30, width: 0.5, stroke: "goldLineHair", duration: 38, delay: 0,   opacity: 0.30 },
+  { y: 120, amp: 45, width: 0.6, stroke: "goldLineHair", duration: 32, delay: 2,   opacity: 0.40, reverse: true },
+  { y: 170, amp: 40, width: 0.7, stroke: "goldLineSoft", duration: 28, delay: 1,   opacity: 0.55 },
+  { y: 220, amp: 55, width: 0.8, stroke: "goldLineSoft", duration: 36, delay: 4,   opacity: 0.50, reverse: true },
+
   // Boven midden
-  {
-    d:  "M -200 320 Q 260 260 600 360 T 1280 340 T 1900 320",
-    d2: "M -200 350 Q 260 420 600 280 T 1280 380 T 1900 340",
-    stroke: "goldLineSoft", width: 0.9, dur: 11, opacity: 0.8,
-  },
-  {
-    d:  "M -200 380 Q 320 320 660 410 T 1300 390 T 1900 380",
-    d2: "M -200 400 Q 320 470 660 330 T 1300 440 T 1900 410",
-    stroke: "goldLine", width: 1.0, dur: 15, opacity: 0.55,
-  },
+  { y: 280, amp: 50, width: 0.9, stroke: "goldLineSoft", duration: 26, delay: 0.5, opacity: 0.65 },
+  { y: 330, amp: 65, width: 1.0, stroke: "goldLine",     duration: 22, delay: 2.5, opacity: 0.70, reverse: true },
+  { y: 380, amp: 55, width: 0.8, stroke: "goldLineHair", duration: 34, delay: 1.5, opacity: 0.45 },
+  { y: 420, amp: 70, width: 1.1, stroke: "goldLine",     duration: 20, delay: 0,   opacity: 0.80 },
+
   // Midden — meest prominent
-  {
-    d:  "M -200 450 Q 220 350 540 460 T 1240 470 T 1900 440",
-    d2: "M -200 470 Q 220 560 540 440 T 1240 510 T 1900 470",
-    stroke: "goldLine", width: 1.4, dur: 14, opacity: 1, glow: true,
-  },
-  {
-    d:  "M -200 510 Q 280 580 620 470 T 1280 530 T 1900 500",
-    d2: "M -200 530 Q 280 460 620 600 T 1280 470 T 1900 540",
-    stroke: "goldLineSoft", width: 1.0, dur: 13, opacity: 0.7,
-  },
+  { y: 470, amp: 80, width: 1.4, stroke: "goldLine",     duration: 18, delay: 3,   opacity: 1.00, glow: true },
+  { y: 510, amp: 60, width: 0.9, stroke: "goldLineSoft", duration: 24, delay: 1,   opacity: 0.75, reverse: true },
+  { y: 555, amp: 75, width: 1.2, stroke: "goldLine",     duration: 21, delay: 4.5, opacity: 0.85, glow: true },
+  { y: 600, amp: 65, width: 1.0, stroke: "goldLineSoft", duration: 27, delay: 2,   opacity: 0.70, reverse: true },
+
   // Onder midden
-  {
-    d:  "M -200 600 Q 300 700 660 580 T 1300 640 T 1900 600",
-    d2: "M -200 580 Q 300 500 660 660 T 1300 600 T 1900 640",
-    stroke: "goldLine", width: 1.3, dur: 17, opacity: 0.85, glow: true,
-  },
-  {
-    d:  "M -200 670 Q 340 600 680 720 T 1320 680 T 1900 650",
-    d2: "M -200 700 Q 340 780 680 600 T 1320 740 T 1900 690",
-    stroke: "goldLineSoft", width: 0.9, dur: 19, opacity: 0.6,
-  },
-  // Onderaan
-  {
-    d:  "M -200 780 Q 240 730 580 790 T 1240 780 T 1900 760",
-    d2: "M -200 770 Q 240 830 580 730 T 1240 800 T 1900 780",
-    stroke: "goldLineSoft", width: 0.7, dur: 20, opacity: 0.55,
-  },
-  {
-    d:  "M -200 840 Q 280 880 620 810 T 1280 850 T 1900 840",
-    d2: "M -200 860 Q 280 790 620 900 T 1280 800 T 1900 820",
-    stroke: "goldLineHair", width: 0.5, dur: 24, opacity: 0.4,
-  },
+  { y: 650, amp: 70, width: 1.1, stroke: "goldLine",     duration: 25, delay: 3.5, opacity: 0.75, glow: true },
+  { y: 700, amp: 55, width: 0.9, stroke: "goldLineSoft", duration: 30, delay: 1.5, opacity: 0.60 },
+  { y: 745, amp: 60, width: 0.8, stroke: "goldLineHair", duration: 33, delay: 5,   opacity: 0.50, reverse: true },
+  { y: 790, amp: 45, width: 0.7, stroke: "goldLineSoft", duration: 28, delay: 2,   opacity: 0.55 },
+
+  // Bottom
+  { y: 830, amp: 50, width: 0.7, stroke: "goldLineHair", duration: 36, delay: 0,   opacity: 0.45, reverse: true },
+  { y: 870, amp: 35, width: 0.6, stroke: "goldLineHair", duration: 40, delay: 3.5, opacity: 0.35 },
+  { y: 905, amp: 30, width: 0.5, stroke: "goldLineHair", duration: 42, delay: 1,   opacity: 0.30, reverse: true },
+  { y: 935, amp: 25, width: 0.4, stroke: "goldLineHair", duration: 45, delay: 4,   opacity: 0.25 },
 ];
+
+/** Bouw een lange wave-path die 3× zo breed is als de viewport (1440).
+ *  Door deze daarna -33.33% te translaten loopt hij seamless. */
+function buildWavePath(y: number, amp: number): string {
+  const W = 1440;
+  const segments = 6; // 6 toppen per viewport-breedte
+  const dx = W / segments / 2;
+  let d = `M ${-W} ${y}`;
+  for (let i = 0; i < 3 * segments; i++) {
+    const cx1 = -W + i * dx * 2 + dx / 2;
+    const cx2 = -W + i * dx * 2 + (dx * 3) / 2;
+    const sign = i % 2 === 0 ? -1 : 1;
+    const ny = y + sign * amp;
+    const xEnd = -W + (i + 1) * dx * 2;
+    d += ` C ${cx1} ${ny} ${cx2} ${ny} ${xEnd} ${y}`;
+  }
+  return d;
+}
 
 export function LuxeBackground() {
   return (
@@ -83,13 +77,13 @@ export function LuxeBackground() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at top right, rgba(212,184,118,0.12), transparent 55%), radial-gradient(ellipse at bottom left, rgba(232,200,120,0.07), transparent 55%)",
+            "radial-gradient(ellipse at top right, rgba(212,184,118,0.13), transparent 55%), radial-gradient(ellipse at bottom left, rgba(232,200,120,0.08), transparent 55%)",
         }}
       />
 
-      {/* Floating gold dust spots */}
+      {/* Floating gold dust */}
       <div className="absolute inset-0">
-        {Array.from({ length: 28 }).map((_, i) => {
+        {Array.from({ length: 36 }).map((_, i) => {
           const left = (i * 37.3) % 100;
           const top = (i * 53.7) % 100;
           const size = 1 + ((i * 7) % 4);
@@ -108,6 +102,7 @@ export function LuxeBackground() {
                 opacity,
                 animation: `goldDust ${dur}s ease-in-out ${delay}s infinite`,
                 filter: "blur(0.3px)",
+                willChange: "transform, opacity",
               }}
             />
           );
@@ -131,12 +126,12 @@ export function LuxeBackground() {
           </linearGradient>
           <linearGradient id="goldLineSoft" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="rgba(212,184,118,0)" />
-            <stop offset="50%" stopColor="rgba(212,184,118,0.55)" />
+            <stop offset="50%" stopColor="rgba(212,184,118,0.6)" />
             <stop offset="100%" stopColor="rgba(212,184,118,0)" />
           </linearGradient>
           <linearGradient id="goldLineHair" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="rgba(232,200,120,0)" />
-            <stop offset="50%" stopColor="rgba(232,200,120,0.35)" />
+            <stop offset="50%" stopColor="rgba(232,200,120,0.4)" />
             <stop offset="100%" stopColor="rgba(232,200,120,0)" />
           </linearGradient>
           <filter id="goldGlow" x="-20%" y="-20%" width="140%" height="140%">
@@ -144,27 +139,30 @@ export function LuxeBackground() {
           </filter>
         </defs>
 
-        {WAVES.map((w, i) => (
-          <path
-            key={i}
-            d={w.d}
-            stroke={`url(#${w.stroke})`}
-            strokeWidth={w.width}
-            fill="none"
-            opacity={w.opacity}
-            filter={w.glow ? "url(#goldGlow)" : undefined}
-          >
-            <animate
-              attributeName="d"
-              dur={`${w.dur}s`}
-              repeatCount="indefinite"
-              values={`${w.d}; ${w.d2}; ${w.d}`}
-            />
-          </path>
-        ))}
+        {WAVES.map((w, i) => {
+          const d = buildWavePath(w.y, w.amp);
+          return (
+            <g
+              key={i}
+              style={{
+                animation: `waveDrift${w.reverse ? "Rev" : ""} ${w.duration}s linear ${w.delay}s infinite`,
+                opacity: w.opacity,
+                willChange: "transform",
+              }}
+            >
+              <path
+                d={d}
+                stroke={`url(#${w.stroke})`}
+                strokeWidth={w.width}
+                fill="none"
+                filter={w.glow ? "url(#goldGlow)" : undefined}
+              />
+            </g>
+          );
+        })}
       </svg>
 
-      {/* Subtle grain bovenop */}
+      {/* Grain */}
       <div
         className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
         style={{
@@ -175,8 +173,16 @@ export function LuxeBackground() {
 
       <style>{`
         @keyframes goldDust {
-          0%, 100% { transform: translate(0, 0) scale(1); opacity: var(--dust-base, 0.3); }
-          50%      { transform: translate(20px, -30px) scale(1.4); opacity: 0.8; }
+          0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+          50%      { transform: translate3d(18px, -28px, 0) scale(1.3); }
+        }
+        @keyframes waveDrift {
+          0%   { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(480px, 0, 0); }
+        }
+        @keyframes waveDriftRev {
+          0%   { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-480px, 0, 0); }
         }
       `}</style>
     </div>
