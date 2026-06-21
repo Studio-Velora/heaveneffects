@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { ArrowRight, Sparkles, Heart, Crown, Wand2 } from "lucide-react";
 import { SiteLayout, useReveal } from "@/components/site-layout";
+import { SectionDots } from "@/components/SectionDots";
 import { categories, CDN } from "@/lib/catalog";
 
 export const Route = createFileRoute("/")({
@@ -39,6 +40,9 @@ function Home() {
 
   return (
     <SiteLayout>
+      <SectionDots
+        labels={["Welkom", "Intro", "Catalogus", "Portfolio", "Reviews", "Quote"]}
+      />
       <Hero />
       <Marquee />
       <Intro />
@@ -381,66 +385,32 @@ function Highlights() {
 /* ---------------- Portfolio ---------------- */
 
 function Portfolio() {
-  // Pak 6 random items uit verschillende categorieën voor een rijk overzicht
-  const picks = [
-    categories[0].items[10], // White Qasr
-    categories[1].items[11], // Reflection Gold
-    categories[0].items[6],  // Beldi
-    categories[5].items[0],  // Lights cover
-    categories[0].items[3],  // Silence
-    categories[1].items[7],  // American Dinner
-  ].filter(Boolean);
+  // Pak meer items voor een rijke lichtkrant (twee rijen, tegen elkaar)
+  const allItems = categories.flatMap((c) =>
+    c.items.slice(0, 4).map((it) => ({ ...it, catSlug: c.slug, catTitle: c.title })),
+  );
+  // Splits in twee rijen, andere richting
+  const rowA = allItems.filter((_, i) => i % 2 === 0);
+  const rowB = allItems.filter((_, i) => i % 2 === 1);
 
   return (
-    <section className="snap-section relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-6 py-24">
-      <div className="mb-12 flex items-end justify-between gap-6 reveal">
-        <div>
-          <div className="mb-4 h-px w-16 gold-line" />
-          <p className="text-xs uppercase tracking-[0.3em] text-accent">Portfolio</p>
-          <h2 className="mt-3 font-display text-5xl leading-[1.05] sm:text-6xl">
-            Een blik op <span className="italic text-gradient-gold">recente projecten</span>
-          </h2>
-        </div>
-        <Link
-          to="/catalogus"
-          className="link-luxe hidden text-sm text-muted-foreground sm:inline-flex items-center gap-2"
-        >
-          Alles bekijken <ArrowRight className="h-4 w-4" />
-        </Link>
+    <section className="snap-section relative mx-auto flex min-h-screen w-full max-w-none flex-col justify-center px-0 py-24">
+      <div className="mx-auto mb-14 max-w-7xl px-6 reveal text-center">
+        <div className="mx-auto mb-4 h-px w-16 gold-line" />
+        <p className="text-xs uppercase tracking-[0.3em] text-accent">Portfolio</p>
+        <h2 className="mt-3 font-display text-5xl leading-[1.05] sm:text-6xl">
+          Een blik op <span className="italic text-gradient-gold">onze projecten</span>
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+          Beweeg over een item om te pauzeren — klik om de hele collectie te zien.
+        </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
-        {picks.map((it, i) => (
-          <Link
-            key={i}
-            to="/catalogus"
-            className={`group reveal relative overflow-hidden rounded-2xl shadow-soft transition-shadow hover:shadow-luxe ${
-              i === 0 ? "md:col-span-2 md:row-span-2 aspect-[4/5] md:aspect-[5/6]" :
-              i === 3 ? "aspect-[4/5] md:aspect-[5/6]" :
-              "aspect-[4/5]"
-            }`}
-            style={{ transitionDelay: `${i * 60}ms` }}
-          >
-            <img
-              src={it!.img}
-              alt={it!.title}
-              loading="lazy"
-              className="img-luxe h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/15 to-transparent opacity-90 transition-opacity group-hover:opacity-100" />
-            <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
-              <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]/90">
-                Heaven Effects
-              </p>
-              <h3 className="mt-1 font-display text-2xl text-background md:text-3xl">
-                {it!.title}
-              </h3>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <PortfolioMarquee items={rowA} duration={70} />
+      <div className="h-5" />
+      <PortfolioMarquee items={rowB} duration={90} reverse />
 
-      <div className="mt-12 flex justify-center">
+      <div className="mx-auto mt-14 flex max-w-7xl justify-center px-6 reveal">
         <GlowLink
           to="/catalogus"
           className="rounded-full border border-foreground/15 px-7 py-3.5"
@@ -451,6 +421,67 @@ function Portfolio() {
         </GlowLink>
       </div>
     </section>
+  );
+}
+
+function PortfolioMarquee({
+  items,
+  duration,
+  reverse = false,
+}: {
+  items: Array<{ slug: string; title: string; img: string; catSlug: string; catTitle: string }>;
+  duration: number;
+  reverse?: boolean;
+}) {
+  const row = [...items, ...items];
+  return (
+    <div className="group/marquee relative overflow-hidden">
+      <div
+        className="flex w-max gap-5"
+        style={{
+          animation: `portfolioMarquee${reverse ? "Rev" : ""} ${duration}s linear infinite`,
+        }}
+      >
+        {row.map((it, i) => (
+          <Link
+            key={`${it.slug}-${i}`}
+            to="/catalogus/$slug"
+            params={{ slug: it.catSlug }}
+            className="group relative block aspect-[4/5] w-[260px] shrink-0 overflow-hidden rounded-2xl shadow-soft transition-shadow hover:shadow-luxe sm:w-[300px] md:w-[340px]"
+          >
+            <img
+              src={it.img}
+              alt={it.title}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/15 to-transparent transition-opacity duration-500 group-hover:from-foreground/95" />
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--gold)]/90">
+                {it.catTitle}
+              </p>
+              <h3 className="mt-1 font-display text-2xl text-background">
+                {it.title}
+              </h3>
+              <span className="mt-2 inline-flex items-center gap-1 text-xs text-background/80 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                Bekijk <ArrowRight className="h-3 w-3" />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+      <style>{`
+        @keyframes portfolioMarquee {
+          0%   { transform: translate3d(0, 0, 0); }
+          100% { transform: translate3d(-50%, 0, 0); }
+        }
+        @keyframes portfolioMarqueeRev {
+          0%   { transform: translate3d(-50%, 0, 0); }
+          100% { transform: translate3d(0, 0, 0); }
+        }
+        .group\\/marquee:hover > div { animation-play-state: paused; }
+      `}</style>
+    </div>
   );
 }
 
