@@ -48,20 +48,21 @@ const WAVES: Wave[] = [
   { y: 935, amp: 25, width: 0.4, stroke: "goldLineHair", duration: 45, delay: 4,   opacity: 0.25 },
 ];
 
-/** Bouw een lange wave-path die 3× zo breed is als de viewport (1440).
- *  Door deze daarna -33.33% te translaten loopt hij seamless. */
+/** Bouwt een uitgerekte wave-path die 3× zo breed is als de viewport (1440).
+ *  Lange, zachte rondingen (Q/T quadratic curves) — als water dat traag golft.
+ *  Bij translateX van W (1440) looped hij seamless. */
 function buildWavePath(y: number, amp: number): string {
   const W = 1440;
-  const segments = 6; // 6 toppen per viewport-breedte
-  const dx = W / segments / 2;
+  // 2 toppen per viewport = 6 toppen over 3× viewport. Lekker uitgerekt.
+  const segments = 2;
+  const segW = W / segments;
   let d = `M ${-W} ${y}`;
   for (let i = 0; i < 3 * segments; i++) {
-    const cx1 = -W + i * dx * 2 + dx / 2;
-    const cx2 = -W + i * dx * 2 + (dx * 3) / 2;
+    const cx = -W + i * segW + segW / 2;
     const sign = i % 2 === 0 ? -1 : 1;
-    const ny = y + sign * amp;
-    const xEnd = -W + (i + 1) * dx * 2;
-    d += ` C ${cx1} ${ny} ${cx2} ${ny} ${xEnd} ${y}`;
+    const cy = y + sign * amp;
+    const xEnd = -W + (i + 1) * segW;
+    d += ` Q ${cx} ${cy} ${xEnd} ${y}`;
   }
   return d;
 }
@@ -162,15 +163,6 @@ export function LuxeBackground() {
         })}
       </svg>
 
-      {/* Grain */}
-      <div
-        className="absolute inset-0 opacity-[0.025] mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-
       <style>{`
         @keyframes goldDust {
           0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
@@ -178,11 +170,11 @@ export function LuxeBackground() {
         }
         @keyframes waveDrift {
           0%   { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(480px, 0, 0); }
+          100% { transform: translate3d(1440px, 0, 0); }
         }
         @keyframes waveDriftRev {
           0%   { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-480px, 0, 0); }
+          100% { transform: translate3d(-1440px, 0, 0); }
         }
       `}</style>
     </div>
