@@ -12,7 +12,7 @@
 <!-- STUDIO-VELORA:BEGIN -->
 ## Project (Studio Velora)
 
-Website voor sierfontijnen en luxe effecten bij bruiloften en events. Stack: TanStack Start (React 19, Vite), Tailwind CSS, shadcn/ui; gebouwd met Lovable. Hosting: Vercel (`nitro: { preset: "vercel" }` in `vite.config.ts`). Wordt verhuisd naar Cloudflare, zie taak 01 in `team-taken`.
+Website voor sierfontijnen en luxe effecten bij bruiloften en events. Stack: TanStack Start (React 19, Vite), Tailwind CSS, shadcn/ui; gebouwd met Lovable. Hosting: Vercel (`nitro: { preset: "vercel" }` in `vite.config.ts`). Wordt verhuisd naar Cloudflare, zie taak 01 in `systeem-team-taken`.
 
 ### Commando's
 - `bun install`, `bun run dev`, `bun run build`, `bun run lint`
